@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explain This Page</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="popup-container">
+        <div class="header">
+            <div class="logo">
+                <span class="icon">📚</span>
+                <h1>Explain This Page</h1>
+            </div>
+            <div class="version">v1.0.0</div>
+        </div>
+
+        <div class="main-content">
+            <div class="action-section">
+                <button id="explainBtn" class="primary-btn">
+                    <span class="btn-icon">✨</span>
+                    Explain Current Page
+                </button>
+                <p class="description">Simplify complex content for easier understanding</p>
+            </div>
+
+            <div class="stats-section">
+                <h3>Your Learning Progress</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="pagesExplained">0</div>
+                        <div class="stat-label">Pages Explained</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="wordsSimplified">0</div>
+                        <div class="stat-label">Words Simplified</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Settings</h3>
+
+                <div class="setting-item">
+                    <label class="setting-label">
+                        <input type="checkbox" id="autoDetect" checked>
+                        <span class="checkmark"></span>
+                        Auto-detect complex pages
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <label class="setting-label">
+                        <input type="checkbox" id="showNotifications" checked>
+                        <span class="checkmark"></span>
+                        Show help notifications
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <label for="complexityLevel">Reading Level:</label>
+                    <select id="complexityLevel">
+                        <option value="elementary">Elementary (Grade 1-5)</option>
+                        <option value="middle-school" selected>Middle School (Grade 6-8)</option>
+                        <option value="high-school">High School (Grade 9-12)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <div class="info-item">
+                    <span class="info-icon">💡</span>
+                    <span>Hover over highlighted words for definitions</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">🔄</span>
+                    <span>Switch between simplified and original text</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">📊</span>
+                    <span>Track your learning progress</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="links">
+                <a href="#" id="helpLink">Help</a>
+                <a href="#" id="feedbackLink">Feedback</a>
+                <a href="#" id="aboutLink">About</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

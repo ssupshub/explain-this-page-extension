@@ -1,0 +1,384 @@
+/* Explain This Page - Content Styles */
+
+/* Notification Banner */
+.etp-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    z-index: 9999;
+    max-width: 350px;
+    animation: etp-slide-in 0.5s ease-out;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.etp-notification-content {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.etp-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.etp-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.etp-text strong {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.etp-text p {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.etp-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.etp-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.etp-btn-primary {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    backdrop-filter: blur(10px);
+}
+
+.etp-btn-primary:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-1px);
+}
+
+.etp-btn-secondary {
+    background: transparent;
+    color: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.etp-btn-secondary:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.etp-fade-out {
+    animation: etp-slide-out 0.3s ease-in forwards;
+}
+
+/* Overlay */
+.etp-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: etp-fade-in 0.3s ease-out;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.etp-overlay-content {
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 1200px;
+    height: 90%;
+    max-height: 800px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.etp-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.etp-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.etp-tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.etp-tab {
+    padding: 8px 16px;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.etp-tab.active,
+.etp-tab:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.etp-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s ease;
+}
+
+.etp-close:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.etp-loading {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.etp-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: etp-spin 1s linear infinite;
+}
+
+.etp-content {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+}
+
+.etp-tab-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-sizing: border-box;
+}
+
+.etp-tab-content.active {
+    opacity: 1;
+}
+
+.etp-tab-content h1,
+.etp-tab-content h2,
+.etp-tab-content h3,
+.etp-tab-content h4,
+.etp-tab-content h5,
+.etp-tab-content h6 {
+    color: #333;
+    margin-top: 0;
+}
+
+.etp-tab-content p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.etp-jargon {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    cursor: help;
+    position: relative;
+}
+
+.etp-jargon:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    z-index: 1000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.etp-footer {
+    background: #f8f9fa;
+    padding: 15px 30px;
+    border-top: 1px solid #e9ecef;
+    flex-shrink: 0;
+}
+
+.etp-stats {
+    display: flex;
+    gap: 30px;
+    font-size: 14px;
+    color: #666;
+}
+
+.etp-stats strong {
+    color: #333;
+}
+
+/* Animations */
+@keyframes etp-slide-in {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes etp-slide-out {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes etp-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes etp-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .etp-notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+
+    .etp-notification-content {
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .etp-buttons {
+        flex-direction: row;
+    }
+
+    .etp-overlay-content {
+        width: 95%;
+        height: 95%;
+    }
+
+    .etp-header {
+        padding: 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .etp-header h2 {
+        font-size: 18px;
+    }
+
+    .etp-tab-content {
+        padding: 20px;
+    }
+
+    .etp-footer {
+        padding: 10px 20px;
+    }
+
+    .etp-stats {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .etp-notification {
+        background: #000;
+        border: 2px solid #fff;
+    }
+
+    .etp-jargon {
+        background: #000;
+        border: 1px solid #fff;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .etp-notification,
+    .etp-overlay,
+    .etp-tab,
+    .etp-btn,
+    .etp-tab-content {
+        animation: none !important;
+        transition: none !important;
+    }
+}
