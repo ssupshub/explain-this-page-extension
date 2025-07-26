@@ -385,5 +385,4 @@ This extension was inspired by the need to make information accessible to all le
 
 **Made with ❤️ for students and lifelong learners everywhere.**
 
-*Last updated: January 2025*
-*Version: 1.0.0*
+
