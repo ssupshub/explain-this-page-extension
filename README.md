@@ -346,14 +346,11 @@ We welcome contributions! Here's how to help:
 ### Getting Help
 - **Documentation**: Start with this README and INSTALLATION.md
 - **FAQ**: Check common issues in troubleshooting section
-- **Community**: Join our user community forum
 - **Direct Support**: Email for specific technical issues
 
 ### Contact Information
-- **Email**: support@explainthispage.com
-- **Website**: www.explainthispage.com
+- **Email**: subhamchauhan1310@gmail.com
 - **GitHub**: github.com/explain-this-page
-- **Twitter**: @ExplainThisPage
 
 ### Feedback & Reviews
 Your feedback helps us improve! Please:
@@ -379,22 +376,10 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - **Fair Use**: Respects original content creators' rights
 - **Limitation of Liability**: Use at your own discretion
 
-## 🙏 Acknowledgments
-
-### Credits
-- **Development Team**: Passionate educators and developers
-- **Beta Testers**: Early adopters who provided valuable feedback
-- **Educational Consultants**: Specialists in reading comprehension
-- **Accessibility Experts**: Ensuring inclusive design
 
 ### Inspiration
 This extension was inspired by the need to make information accessible to all learners, regardless of their current reading level or familiarity with technical topics.
 
-### Special Thanks
-- Teachers who reviewed our educational approach
-- Students who tested early versions
-- Parents who provided feedback on usability
-- Developers who contributed to open-source libraries
 
 ---
 
