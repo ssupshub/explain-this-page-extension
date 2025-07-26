@@ -350,7 +350,7 @@ We welcome contributions! Here's how to help:
 
 ### Contact Information
 - **Email**: subhamchauhan1310@gmail.com
-- **GitHub**: github.com/explain-this-page
+- **GitHub**: [github.com/explain-this-page](https://github.com/ssupshub)
 
 ### Feedback & Reviews
 Your feedback helps us improve! Please:
