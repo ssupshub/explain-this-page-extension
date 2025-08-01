@@ -1,412 +1,432 @@
-// Content script for "Explain This Page" extension
-// Runs on all pages to detect complexity and provide simplification
-
-// Prevent multiple injections
+// Enhanced content script for Explain This Page extension v2.0
 if (window.__explainPageInjected) {
-  console.log("Explain This Page: Already injected");
-} else {
-  window.__explainPageInjected = true;
+  console.log("Explain This Page: Already injected, skipping");
+  return;
+}
+window.__explainPageInjected = true;
 
-  // Dictionary of common jargon terms and their explanations
-  const jargonDictionary = {
-    "API": "Application Programming Interface – a set of tools that allow different software programs to communicate with each other.",
-    "JavaScript": "A programming language that makes web pages interactive and dynamic.",
-    "HTML": "HyperText Markup Language – the code used to structure and display content on web pages.",
-    "CSS": "Cascading Style Sheets – the code used to style and format the appearance of web pages.",
-    "algorithm": "A set of step-by-step instructions to solve a problem or complete a task.",
-    "bandwidth": "The amount of data that can be transmitted over an internet connection in a given time.",
-    "cache": "A temporary storage area that keeps frequently used data for quick access.",
-    "cryptocurrency": "Digital money that uses encryption for security and operates independently of banks.",
-    "encryption": "The process of converting information into a secret code to protect it from unauthorized access.",
-    "firewall": "A security system that monitors and controls network traffic to protect against threats.",
-    "malware": "Malicious software designed to damage or gain unauthorized access to computer systems.",
-    "protocol": "A set of rules that govern how data is transmitted and received over a network.",
-    "server": "A computer that provides services, data, or programs to other computers over a network.",
-    "URL": "Uniform Resource Locator – the web address that specifies the location of a resource on the internet."
-  };
+// Enhanced jargon dictionary with 35+ terms
+const jargonDictionary = {
+  // Tech terms
+  "API": "Application Programming Interface - a way for software to talk to other software",
+  "JavaScript": "A programming language that makes web pages interactive",
+  "HTML": "HyperText Markup Language - the basic structure of web pages",
+  "CSS": "Cascading Style Sheets - what makes web pages look good",
+  "algorithm": "A set of rules or steps to solve a problem",
+  "database": "A place where information is stored and organized",
+  "server": "A computer that provides services to other computers",
+  "browser": "Software used to view websites (like Chrome, Firefox)",
+  "debugging": "Finding and fixing problems in computer programs",
+  "framework": "A set of tools that helps programmers build software faster",
 
-  // Word complexity levels - words that might be difficult for different reading levels
-  const complexWords = {
-    elementary: ["utilize", "facilitate", "demonstrate", "significant", "appropriate", "establish", "determine", "individual"],
-    middle: ["synthesize", "methodology", "phenomenon", "demonstrate", "constitute", "preliminary", "substantial"],
-    high: ["paradigm", "dichotomy", "quintessential", "ubiquitous", "empirical", "exponential", "hypothetical"]
-  };
+  // Academic terms
+  "hypothesis": "An educated guess that can be tested",
+  "methodology": "The way research is done",
+  "paradigm": "A way of thinking about something",
+  "synthesis": "Combining different ideas or parts",
+  "empirical": "Based on observation and experiment",
+  "analysis": "Breaking something down to understand it",
+  "correlation": "When two things are connected or related",
+  "phenomenon": "Something that happens or exists",
+  "criteria": "Standards used to judge or decide something",
+  "assessment": "Evaluation or testing",
 
-  // Simple word replacements for easier reading
-  const wordReplacements = {
-    "utilize": "use",
-    "facilitate": "help",
-    "demonstrate": "show",
-    "significant": "important",
-    "appropriate": "right",
-    "establish": "set up",
-    "determine": "find out",
-    "individual": "person",
-    "consequently": "so",
-    "furthermore": "also",
-    "nevertheless": "but",
-    "subsequently": "then",
-    "approximately": "about",
-    "initiate": "start",
-    "terminate": "end",
-    "acquire": "get",
-    "comprehend": "understand",
-    "implement": "put into action"
-  };
+  // Business terms
+  "optimization": "Making something work better",
+  "implementation": "Putting a plan into action",
+  "infrastructure": "The basic systems needed for something to work",
+  "stakeholder": "Someone who has an interest in a project",
+  "benchmark": "A standard to compare things against",
+  "sustainability": "Ability to keep going without causing harm",
+  "logistics": "Planning and managing resources",
+  "revenue": "Money coming in from sales",
+  "expenditure": "Money being spent",
+  "acquisition": "Buying or obtaining something",
 
-  // Function to replace complex words with simpler alternatives
-  function simplifyWords(text) {
-    let simplifiedText = text;
-    Object.entries(wordReplacements).forEach(([complex, simple]) => {
-      const regex = new RegExp(`\\b${complex}\\b`, 'gi');
-      simplifiedText = simplifiedText.replace(regex, simple);
-    });
-    return simplifiedText;
+  // Medical/Science terms
+  "diagnosis": "Identifying what disease or problem someone has",
+  "therapy": "Treatment to help someone get better",
+  "symptoms": "Signs that show someone might be sick",
+  "chronic": "Long-lasting or ongoing",
+  "acute": "Happening suddenly or severely"
+};
+
+// Word simplification dictionary
+const wordSimplifications = {
+  'utilize': 'use',
+  'demonstrate': 'show',
+  'implement': 'do',
+  'facilitate': 'help',
+  'approximately': 'about',
+  'subsequently': 'then',
+  'consequently': 'so',
+  'furthermore': 'also',
+  'however': 'but',
+  'therefore': 'so',
+  'nevertheless': 'but',
+  'predominantly': 'mostly',
+  'substantial': 'large',
+  'commence': 'start',
+  'terminate': 'end',
+  'acquire': 'get',
+  'sufficient': 'enough',
+  'eliminate': 'remove',
+  'construct': 'build',
+  'purchase': 'buy',
+  'establish': 'set up',
+  'maintain': 'keep',
+  'indicate': 'show',
+  'require': 'need',
+  'assist': 'help',
+  'provide': 'give',
+  'obtain': 'get',
+  'create': 'make',
+  'develop': 'make',
+  'produce': 'make'
+};
+
+// Reading levels
+const readingLevels = {
+  elementary: { maxSentenceWords: 10, maxWordLength: 6 },
+  middle: { maxSentenceWords: 15, maxWordLength: 8 },
+  high: { maxSentenceWords: 20, maxWordLength: 10 }
+};
+
+let currentLevel = 'middle';
+let pageStats = { wordsSimplified: 0, jargonExplained: 0 };
+
+// Load user settings
+chrome.storage.sync.get(['explainPageLevel', 'autoDetect'], (result) => {
+  if (result.explainPageLevel) {
+    currentLevel = result.explainPageLevel;
+  }
+  if (result.autoDetect !== false && checkComplexity()) {
+    setTimeout(() => injectBanner(), 1000);
+  }
+});
+
+// Enhanced complexity detection
+function checkComplexity() {
+  const text = document.body.innerText || '';
+  if (text.length < 500) return false; // Skip very short pages
+
+  const words = text.split(/\s+/);
+  const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+
+  // Count long words (8+ characters)
+  const longWords = words.filter(w => w.length > 8);
+  const longWordRatio = longWords.length / words.length;
+
+  // Count jargon terms
+  const jargonHits = Object.keys(jargonDictionary).filter(term => 
+    text.toLowerCase().includes(term.toLowerCase())
+  );
+
+  // Count long sentences (20+ words)
+  const longSentences = sentences.filter(s => s.split(/\s+/).length > 20);
+  const longSentenceRatio = longSentences.length / sentences.length;
+
+  // Complex if:
+  // - More than 12% long words
+  // - 3+ jargon terms
+  // - More than 30% long sentences
+  return longWordRatio > 0.12 || jargonHits.length >= 3 || longSentenceRatio > 0.3;
+}
+
+// Enhanced text simplification
+function simplifyText(element, level = currentLevel) {
+  const walker = document.createTreeWalker(
+    element,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode: function(node) {
+        // Skip script, style, and other non-content elements
+        const parent = node.parentElement;
+        if (!parent) return NodeFilter.FILTER_REJECT;
+
+        const excludeTags = ['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEXTAREA', 'INPUT', 'BUTTON'];
+        if (excludeTags.includes(parent.tagName)) {
+          return NodeFilter.FILTER_REJECT;
+        }
+
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    },
+    false
+  );
+
+  const textNodes = [];
+  let node;
+  while (node = walker.nextNode()) {
+    textNodes.push(node);
   }
 
-  // Function to add tooltips to jargon terms
-  function addJargonTooltips(textNode) {
-    if (!textNode.nodeValue) return;
-
+  textNodes.forEach(textNode => {
     let text = textNode.nodeValue;
-    let hasJargon = false;
+    if (!text || text.trim().length === 0) return;
 
-    Object.entries(jargonDictionary).forEach(([term, definition]) => {
-      const regex = new RegExp(`\\b${term}\\b`, 'gi');
-      if (regex.test(text)) {
-        hasJargon = true;
-      }
-    });
+    // Replace jargon with tooltips
+    text = replaceJargonWithTooltips(text, textNode);
 
-    if (hasJargon) {
-      const span = document.createElement('span');
-      span.innerHTML = text;
+    // Simplify words
+    text = simplifyWords(text);
 
-      Object.entries(jargonDictionary).forEach(([term, definition]) => {
-        const regex = new RegExp(`\\b(${term})\\b`, 'gi');
-        span.innerHTML = span.innerHTML.replace(regex, 
-          `<span class="explain-tooltip" title="${definition}">$1</span>`
-        );
-      });
+    // Break long sentences
+    text = breakLongSentences(text, level);
 
-      textNode.parentNode.replaceChild(span, textNode);
+    // Update the text node
+    if (text !== textNode.nodeValue) {
+      textNode.nodeValue = text;
     }
-  }
+  });
+}
 
-  // Function to simplify text content
-  function simplifyTextContent(container) {
-    const walker = document.createTreeWalker(
-      container,
-      NodeFilter.SHOW_TEXT,
-      {
-        acceptNode: function(node) {
-          // Skip script, style, and other non-content elements
-          const parent = node.parentNode;
-          if (parent && ['SCRIPT', 'STYLE', 'NOSCRIPT', 'TEXTAREA', 'INPUT'].includes(parent.nodeName)) {
-            return NodeFilter.FILTER_REJECT;
-          }
-          return NodeFilter.FILTER_ACCEPT;
+// Replace jargon terms with tooltip spans
+function replaceJargonWithTooltips(text, textNode) {
+  const fragment = document.createDocumentFragment();
+  let lastIndex = 0;
+  let modified = false;
+
+  Object.entries(jargonDictionary).forEach(([term, definition]) => {
+    const regex = new RegExp(`\\b${term}\\b`, 'gi');
+    let match;
+
+    while ((match = regex.exec(text)) !== null) {
+      if (!modified) {
+        // Add text before the match
+        if (match.index > lastIndex) {
+          fragment.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
         }
-      },
-      false
-    );
 
-    let node;
-    const textNodes = [];
+        // Create tooltip span
+        const span = document.createElement('span');
+        span.textContent = match[0];
+        span.className = 'explain-tooltip';
+        span.title = definition;
+        fragment.appendChild(span);
 
-    // Collect all text nodes first to avoid modification during traversal
-    while ((node = walker.nextNode())) {
-      textNodes.push(node);
-    }
-
-    // Process each text node
-    textNodes.forEach(textNode => {
-      if (textNode.nodeValue && textNode.nodeValue.trim()) {
-        // Add jargon tooltips
-        addJargonTooltips(textNode);
-
-        // Simplify the text
-        const originalText = textNode.nodeValue;
-        const simplifiedText = simplifyWords(originalText);
-
-        // Break long sentences
-        const sentences = simplifiedText.split(/(?<=[.!?])\s+/);
-        if (sentences.length > 1) {
-          const processedText = sentences
-            .map(sentence => sentence.trim())
-            .filter(sentence => sentence.length > 0)
-            .join('.\n') + (simplifiedText.endsWith('.') ? '' : '.');
-
-          textNode.nodeValue = processedText;
-        } else {
-          textNode.nodeValue = simplifiedText;
-        }
+        lastIndex = match.index + match[0].length;
+        modified = true;
+        pageStats.jargonExplained++;
       }
-    });
-  }
-
-  // Function to check if page content is complex
-  function analyzePageComplexity() {
-    const bodyText = document.body.innerText || '';
-    const words = bodyText.split(/\s+/).filter(word => word.length > 0);
-
-    // Check for long words (>12 characters)
-    const longWords = words.filter(word => word.length > 12);
-
-    // Check for jargon terms
-    const jargonMatches = Object.keys(jargonDictionary).filter(term => 
-      bodyText.toLowerCase().includes(term.toLowerCase())
-    );
-
-    // Check for complex words
-    const complexWordMatches = Object.values(complexWords)
-      .flat()
-      .filter(word => bodyText.toLowerCase().includes(word.toLowerCase()));
-
-    // Calculate complexity score
-    const complexityScore = (longWords.length * 0.5) + (jargonMatches.length * 2) + (complexWordMatches.length * 1.5);
-
-    console.log('Page Complexity Analysis:', {
-      totalWords: words.length,
-      longWords: longWords.length,
-      jargonTerms: jargonMatches.length,
-      complexWords: complexWordMatches.length,
-      complexityScore: complexityScore
-    });
-
-    // Page is considered complex if score > 10 or has significant jargon
-    return complexityScore > 10 || jargonMatches.length > 2;
-  }
-
-  // Function to create the explanation overlay
-  function createExplanationOverlay() {
-    // Remove existing overlay if present
-    const existingOverlay = document.getElementById('explain-page-overlay');
-    if (existingOverlay) {
-      existingOverlay.remove();
-      return;
     }
-
-    // Create overlay container
-    const overlay = document.createElement('div');
-    overlay.id = 'explain-page-overlay';
-    overlay.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 999999;
-      display: flex;
-      flex-direction: column;
-      padding: 20px;
-      box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-      overflow: hidden;
-    `;
-
-    // Create header with title and close button
-    const header = document.createElement('div');
-    header.style.cssText = `
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      color: white;
-    `;
-
-    const title = document.createElement('h2');
-    title.textContent = 'Page Explanation - Simplified View';
-    title.style.cssText = 'margin: 0; font-size: 24px; color: #2d89ef;';
-
-    const closeButton = document.createElement('button');
-    closeButton.textContent = '✖ Close';
-    closeButton.style.cssText = `
-      background: #2d89ef;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-    `;
-    closeButton.onmouseover = () => closeButton.style.background = '#1e5fbd';
-    closeButton.onmouseout = () => closeButton.style.background = '#2d89ef';
-    closeButton.onclick = () => overlay.remove();
-
-    header.appendChild(title);
-    header.appendChild(closeButton);
-
-    // Create content container with side-by-side layout
-    const contentContainer = document.createElement('div');
-    contentContainer.style.cssText = `
-      display: flex;
-      gap: 20px;
-      flex: 1;
-      overflow: hidden;
-    `;
-
-    // Original content panel
-    const originalPanel = document.createElement('div');
-    originalPanel.style.cssText = `
-      flex: 1;
-      background: white;
-      border-radius: 8px;
-      padding: 20px;
-      overflow-y: auto;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    `;
-
-    const originalTitle = document.createElement('h3');
-    originalTitle.textContent = 'Original Content';
-    originalTitle.style.cssText = 'margin-top: 0; color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px;';
-
-    const originalContent = document.createElement('div');
-    originalContent.innerHTML = document.body.innerHTML;
-
-    originalPanel.appendChild(originalTitle);
-    originalPanel.appendChild(originalContent);
-
-    // Simplified content panel
-    const simplifiedPanel = document.createElement('div');
-    simplifiedPanel.style.cssText = `
-      flex: 1;
-      background: #f8f9ff;
-      border-radius: 8px;
-      padding: 20px;
-      overflow-y: auto;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    `;
-
-    const simplifiedTitle = document.createElement('h3');
-    simplifiedTitle.textContent = 'Simplified Content';
-    simplifiedTitle.style.cssText = 'margin-top: 0; color: #2d89ef; border-bottom: 2px solid #2d89ef; padding-bottom: 10px;';
-
-    const simplifiedContent = document.createElement('div');
-    simplifiedContent.innerHTML = '<p style="color: #666; font-style: italic;">Processing and simplifying content...</p>';
-
-    simplifiedPanel.appendChild(simplifiedTitle);
-    simplifiedPanel.appendChild(simplifiedContent);
-
-    // Assemble the overlay
-    contentContainer.appendChild(originalPanel);
-    contentContainer.appendChild(simplifiedPanel);
-
-    overlay.appendChild(header);
-    overlay.appendChild(contentContainer);
-
-    document.body.appendChild(overlay);
-
-    // Process simplified content after a short delay for better UX
-    setTimeout(() => {
-      const tempContainer = document.createElement('div');
-      tempContainer.innerHTML = document.body.innerHTML;
-
-      // Remove the overlay from temp container to avoid processing it
-      const tempOverlay = tempContainer.querySelector('#explain-page-overlay');
-      if (tempOverlay) tempOverlay.remove();
-
-      simplifyTextContent(tempContainer);
-      simplifiedContent.innerHTML = tempContainer.innerHTML;
-
-      // Remove any remaining overlay elements from simplified content
-      const remainingOverlays = simplifiedContent.querySelectorAll('#explain-page-overlay');
-      remainingOverlays.forEach(el => el.remove());
-
-    }, 1000);
-  }
-
-  // Function to create the floating help banner
-  function createHelpBanner() {
-    // Don't create banner if one already exists
-    if (document.getElementById('explain-help-banner')) return;
-
-    const banner = document.createElement('div');
-    banner.id = 'explain-help-banner';
-    banner.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: linear-gradient(135deg, #2d89ef, #1e5fbd);
-      color: white;
-      padding: 15px 25px;
-      border-radius: 25px;
-      box-shadow: 0 6px 20px rgba(45, 137, 239, 0.4);
-      cursor: pointer;
-      z-index: 999998;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-      font-size: 14px;
-      font-weight: 500;
-      user-select: none;
-      transition: all 0.3s ease;
-      max-width: 280px;
-      line-height: 1.4;
-    `;
-
-    banner.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <span style="font-size: 18px;">💡</span>
-        <span>This page looks complex! Click to get a simplified explanation.</span>
-      </div>
-    `;
-
-    // Add hover effects
-    banner.onmouseenter = () => {
-      banner.style.transform = 'translateY(-2px)';
-      banner.style.boxShadow = '0 8px 25px rgba(45, 137, 239, 0.6)';
-    };
-
-    banner.onmouseleave = () => {
-      banner.style.transform = 'translateY(0)';
-      banner.style.boxShadow = '0 6px 20px rgba(45, 137, 239, 0.4)';
-    };
-
-    banner.onclick = () => {
-      createExplanationOverlay();
-      banner.remove();
-    };
-
-    document.body.appendChild(banner);
-
-    // Auto-hide banner after 15 seconds
-    setTimeout(() => {
-      if (banner.parentElement) {
-        banner.style.opacity = '0';
-        setTimeout(() => banner.remove(), 300);
-      }
-    }, 15000);
-  }
-
-  // Listen for messages from popup
-  window.addEventListener('explain-page-request', () => {
-    createExplanationOverlay();
   });
 
-  // Main initialization
-  function initializeExtension() {
-    // Wait for page to be fully loaded
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initializeExtension);
-      return;
+  if (modified) {
+    // Add remaining text
+    if (lastIndex < text.length) {
+      fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
     }
 
-    // Skip certain pages
-    const skipDomains = ['chrome://', 'chrome-extension://', 'moz-extension://', 'about:'];
-    if (skipDomains.some(domain => window.location.href.startsWith(domain))) {
-      return;
-    }
-
-    // Analyze page complexity
-    setTimeout(() => {
-      if (analyzePageComplexity()) {
-        createHelpBanner();
-      }
-    }, 2000); // Wait 2 seconds after page load to analyze
+    // Replace the text node with the fragment
+    textNode.parentNode.replaceChild(fragment, textNode);
+    return text; // Return original for further processing
   }
 
-  // Initialize the extension
-  initializeExtension();
+  return text;
 }
+
+// Simplify complex words
+function simplifyWords(text) {
+  let simplified = text;
+
+  Object.entries(wordSimplifications).forEach(([complex, simple]) => {
+    const regex = new RegExp(`\\b${complex}\\b`, 'gi');
+    if (regex.test(simplified)) {
+      simplified = simplified.replace(regex, simple);
+      pageStats.wordsSimplified++;
+    }
+  });
+
+  return simplified;
+}
+
+// Break long sentences based on reading level
+function breakLongSentences(text, level) {
+  const levelConfig = readingLevels[level] || readingLevels.middle;
+  const sentences = text.split(/([.!?]+)/);
+
+  let result = '';
+  for (let i = 0; i < sentences.length; i += 2) {
+    const sentence = sentences[i];
+    const punctuation = sentences[i + 1] || '';
+
+    if (sentence) {
+      const words = sentence.trim().split(/\s+/);
+      if (words.length > levelConfig.maxSentenceWords) {
+        // Break long sentence at conjunctions or commas
+        const breakWords = ['and', 'but', 'or', 'because', 'since', 'when', 'while', 'although'];
+        let broken = sentence;
+
+        breakWords.forEach(word => {
+          const regex = new RegExp(`\\s+${word}\\s+`, 'gi');
+          broken = broken.replace(regex, `.\n${word.charAt(0).toUpperCase() + word.slice(1)} `);
+        });
+
+        // Also break at commas if sentence is still long
+        if (broken.split(/\s+/).length > levelConfig.maxSentenceWords) {
+          broken = broken.replace(/,\s+/g, '.\n');
+        }
+
+        result += broken + punctuation;
+      } else {
+        result += sentence + punctuation;
+      }
+    }
+  }
+
+  return result;
+}
+
+// Create enhanced overlay with better UI
+function createOverlay(originalHTML) {
+  if (document.getElementById('explain-page-overlay')) return;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'explain-page-overlay';
+  overlay.innerHTML = `
+    <div class="explain-overlay-content">
+      <div class="explain-header">
+        <h2>Explain This Page</h2>
+        <div class="explain-controls">
+          <select id="explain-level-selector">
+            <option value="elementary">Elementary</option>
+            <option value="middle">Middle School</option>
+            <option value="high">High School</option>
+          </select>
+          <button id="explain-close-btn">✖ Close</button>
+        </div>
+      </div>
+      <div class="explain-content-container">
+        <div class="explain-original-content">
+          <h3>Original Content</h3>
+          <div class="explain-content-scroll" id="original-content"></div>
+        </div>
+        <div class="explain-simplified-content">
+          <h3>Simplified Content (${currentLevel.charAt(0).toUpperCase() + currentLevel.slice(1)} Level)</h3>
+          <div class="explain-content-scroll" id="simplified-content">
+            <div class="explain-loading">Simplifying content...</div>
+          </div>
+        </div>
+      </div>
+      <div class="explain-stats">
+        <span>Words simplified: <strong>${pageStats.wordsSimplified}</strong></span>
+        <span>Jargon explained: <strong>${pageStats.jargonExplained}</strong></span>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  // Set up event listeners
+  document.getElementById('explain-close-btn').onclick = () => overlay.remove();
+  document.getElementById('explain-level-selector').value = currentLevel;
+  document.getElementById('explain-level-selector').onchange = (e) => {
+    currentLevel = e.target.value;
+    regenerateSimplifiedContent();
+  };
+
+  // Add original content
+  document.getElementById('original-content').innerHTML = originalHTML;
+
+  // Generate simplified content
+  setTimeout(() => regenerateSimplifiedContent(), 500);
+}
+
+function regenerateSimplifiedContent() {
+  const simplifiedContainer = document.getElementById('simplified-content');
+  if (!simplifiedContainer) return;
+
+  simplifiedContainer.innerHTML = '<div class="explain-loading">Simplifying content...</div>';
+
+  setTimeout(() => {
+    // Reset stats
+    pageStats = { wordsSimplified: 0, jargonExplained: 0 };
+
+    // Clone and simplify content
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = document.getElementById('original-content').innerHTML;
+    simplifyText(tempDiv, currentLevel);
+
+    simplifiedContainer.innerHTML = '';
+    simplifiedContainer.appendChild(tempDiv);
+
+    // Update stats
+    const statsElement = document.querySelector('.explain-stats');
+    if (statsElement) {
+      statsElement.innerHTML = `
+        <span>Words simplified: <strong>${pageStats.wordsSimplified}</strong></span>
+        <span>Jargon explained: <strong>${pageStats.jargonExplained}</strong></span>
+      `;
+    }
+
+    // Update header
+    const header = document.querySelector('.explain-simplified-content h3');
+    if (header) {
+      header.textContent = `Simplified Content (${currentLevel.charAt(0).toUpperCase() + currentLevel.slice(1)} Level)`;
+    }
+  }, 800);
+}
+
+// Enhanced banner injection
+function injectBanner() {
+  if (document.getElementById('explain-page-banner')) return;
+
+  const banner = document.createElement('div');
+  banner.id = 'explain-page-banner';
+  banner.innerHTML = `
+    <div class="explain-banner-content">
+      <div class="explain-banner-icon">📖</div>
+      <div class="explain-banner-text">
+        <strong>This page looks complex!</strong>
+        <br>Click to simplify it for easier reading
+      </div>
+      <button class="explain-banner-btn">Explain This Page</button>
+    </div>
+  `;
+
+  banner.onclick = () => {
+    createOverlay(document.body.innerHTML);
+    updateUsageStats();
+  };
+
+  document.body.appendChild(banner);
+
+  // Auto-hide after 10 seconds
+  setTimeout(() => {
+    if (banner.parentNode) {
+      banner.style.opacity = '0.7';
+    }
+  }, 10000);
+}
+
+// Update usage statistics
+function updateUsageStats() {
+  chrome.storage.sync.get(['pagesExplained', 'totalWordsSimplified'], (result) => {
+    const pagesExplained = (result.pagesExplained || 0) + 1;
+    const totalWordsSimplified = (result.totalWordsSimplified || 0) + pageStats.wordsSimplified;
+
+    chrome.storage.sync.set({
+      pagesExplained,
+      totalWordsSimplified,
+      lastUsed: Date.now()
+    });
+  });
+}
+
+// Listen for events from popup or background
+window.addEventListener('explain-page-request', () => {
+  createOverlay(document.body.innerHTML);
+  updateUsageStats();
+});
+
+// Listen for messages
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === 'explainPage') {
+    createOverlay(document.body.innerHTML);
+    updateUsageStats();
+    sendResponse({ success: true });
+  }
+});
+
+console.log('Explain This Page content script loaded successfully');

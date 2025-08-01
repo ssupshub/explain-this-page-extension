@@ -8,80 +8,55 @@
 </head>
 <body>
   <div class="popup-container">
-    <div class="header">
-      <div class="logo">
-        <span class="icon">💡</span>
-        <h1>Explain This Page</h1>
-      </div>
-      <div class="version">v1.0</div>
+    <div class="popup-header">
+      <h1>📖 Explain This Page</h1>
+      <div class="version">v2.0</div>
     </div>
 
-    <div class="main-content">
-      <div class="section">
-        <h3>Reading Level</h3>
-        <div class="level-selector">
-          <select id="complexity-level" aria-label="Select reading complexity level">
-            <option value="elementary">Elementary School</option>
-            <option value="middle" selected>Middle School</option>
-            <option value="high">High School</option>
-          </select>
-        </div>
+    <div class="popup-content">
+      <div class="setting-group">
+        <label for="level-select">Reading Level:</label>
+        <select id="level-select">
+          <option value="elementary">Elementary School</option>
+          <option value="middle">Middle School</option>
+          <option value="high">High School</option>
+        </select>
       </div>
 
-      <div class="section">
-        <h3>Actions</h3>
-        <div class="action-buttons">
-          <button id="explain-current-page" class="primary-btn">
-            <span class="btn-icon">📖</span>
-            Explain Current Page
-          </button>
-
-          <button id="analyze-complexity" class="secondary-btn">
-            <span class="btn-icon">🔍</span>
-            Analyze Complexity
-          </button>
-        </div>
+      <div class="setting-group">
+        <label class="checkbox-label">
+          <input type="checkbox" id="auto-detect" checked>
+          <span class="checkmark"></span>
+          Auto-detect complex pages
+        </label>
       </div>
 
-      <div class="section">
-        <h3>Settings</h3>
-        <div class="settings">
-          <label class="checkbox-container">
-            <input type="checkbox" id="auto-detect" checked>
-            <span class="checkmark"></span>
-            Auto-detect complex pages
-          </label>
-
-          <label class="checkbox-container">
-            <input type="checkbox" id="show-tooltips" checked>
-            <span class="checkmark"></span>
-            Show jargon tooltips
-          </label>
-        </div>
+      <div class="action-buttons">
+        <button id="explain-btn" class="primary-btn">Explain Current Page</button>
+        <button id="test-btn" class="secondary-btn">Test on Wikipedia</button>
       </div>
 
-      <div class="section stats-section" id="stats-section" style="display: none;">
+      <div class="stats-section">
         <h3>Usage Statistics</h3>
-        <div class="stats">
+        <div class="stats-grid">
           <div class="stat-item">
-            <span class="stat-number" id="pages-explained">0</span>
-            <span class="stat-label">Pages Explained</span>
+            <div class="stat-number" id="pages-explained">0</div>
+            <div class="stat-label">Pages Explained</div>
           </div>
           <div class="stat-item">
-            <span class="stat-number" id="terms-simplified">0</span>
-            <span class="stat-label">Terms Simplified</span>
+            <div class="stat-number" id="words-simplified">0</div>
+            <div class="stat-label">Words Simplified</div>
           </div>
         </div>
+        <div class="last-used" id="last-used">Never used</div>
       </div>
+
+      <div class="status-message" id="status"></div>
     </div>
 
-    <div class="footer">
-      <div class="status-message" id="status-message"></div>
-      <div class="links">
-        <a href="#" id="help-link">Help</a>
-        <span class="separator">•</span>
-        <a href="#" id="feedback-link">Feedback</a>
-      </div>
+    <div class="popup-footer">
+      <a href="#" id="help-link">Help & Tips</a>
+      <a href="#" id="reset-link">Reset Settings</a>
     </div>
   </div>
 

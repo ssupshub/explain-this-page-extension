@@ -1,299 +1,232 @@
-// Popup script for "Explain This Page" extension
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Get references to DOM elements
-  const complexityLevel = document.getElementById('complexity-level');
-  const explainCurrentPageBtn = document.getElementById('explain-current-page');
-  const analyzeComplexityBtn = document.getElementById('analyze-complexity');
+// Popup script for Explain This Page extension v2.0
+document.addEventListener('DOMContentLoaded', async function() {
+  // DOM elements
+  const levelSelect = document.getElementById('level-select');
   const autoDetectCheckbox = document.getElementById('auto-detect');
-  const showTooltipsCheckbox = document.getElementById('show-tooltips');
-  const statusMessage = document.getElementById('status-message');
-  const statsSection = document.getElementById('stats-section');
-  const pagesExplainedSpan = document.getElementById('pages-explained');
-  const termsSimplifiedSpan = document.getElementById('terms-simplified');
+  const explainBtn = document.getElementById('explain-btn');
+  const testBtn = document.getElementById('test-btn');
+  const statusDiv = document.getElementById('status');
   const helpLink = document.getElementById('help-link');
-  const feedbackLink = document.getElementById('feedback-link');
+  const resetLink = document.getElementById('reset-link');
 
-  // Storage keys
-  const STORAGE_KEYS = {
-    complexityLevel: 'explainPage_complexityLevel',
-    autoDetect: 'explainPage_autoDetect',
-    showTooltips: 'explainPage_showTooltips',
-    pagesExplained: 'explainPage_pagesExplained',
-    termsSimplified: 'explainPage_termsSimplified'
-  };
+  // Stats elements
+  const pagesExplainedElement = document.getElementById('pages-explained');
+  const wordsSimplifiedElement = document.getElementById('words-simplified');
+  const lastUsedElement = document.getElementById('last-used');
 
-  // Initialize popup
-  function initializePopup() {
-    loadSettings();
-    loadStatistics();
-    attachEventListeners();
-    showStatusMessage('Ready to explain pages!', 'success');
-  }
+  // Load settings and stats
+  await loadSettings();
+  await loadStats();
 
-  // Load user settings from storage
-  function loadSettings() {
-    chrome.storage.sync.get(Object.values(STORAGE_KEYS), function(data) {
-      // Set complexity level
-      if (data[STORAGE_KEYS.complexityLevel]) {
-        complexityLevel.value = data[STORAGE_KEYS.complexityLevel];
+  // Event listeners
+  levelSelect.addEventListener('change', saveSettings);
+  autoDetectCheckbox.addEventListener('change', saveSettings);
+  explainBtn.addEventListener('click', explainCurrentPage);
+  testBtn.addEventListener('click', openTestPage);
+  helpLink.addEventListener('click', showHelp);
+  resetLink.addEventListener('click', resetSettings);
+
+  // Load user settings
+  async function loadSettings() {
+    try {
+      const result = await chrome.storage.sync.get(['explainPageLevel', 'autoDetect']);
+
+      if (result.explainPageLevel) {
+        levelSelect.value = result.explainPageLevel;
       }
 
-      // Set auto-detect checkbox
-      if (data[STORAGE_KEYS.autoDetect] !== undefined) {
-        autoDetectCheckbox.checked = data[STORAGE_KEYS.autoDetect];
+      if (result.autoDetect !== undefined) {
+        autoDetectCheckbox.checked = result.autoDetect;
       }
-
-      // Set show tooltips checkbox
-      if (data[STORAGE_KEYS.showTooltips] !== undefined) {
-        showTooltipsCheckbox.checked = data[STORAGE_KEYS.showTooltips];
-      }
-    });
-  }
-
-  // Load usage statistics
-  function loadStatistics() {
-    chrome.storage.local.get([STORAGE_KEYS.pagesExplained, STORAGE_KEYS.termsSimplified], function(data) {
-      const pagesExplained = data[STORAGE_KEYS.pagesExplained] || 0;
-      const termsSimplified = data[STORAGE_KEYS.termsSimplified] || 0;
-
-      pagesExplainedSpan.textContent = pagesExplained;
-      termsSimplifiedSpan.textContent = termsSimplified;
-
-      // Show stats section if there are any statistics
-      if (pagesExplained > 0 || termsSimplified > 0) {
-        statsSection.style.display = 'flex';
-      }
-    });
-  }
-
-  // Save setting to storage
-  function saveSetting(key, value) {
-    chrome.storage.sync.set({ [key]: value }, function() {
-      if (chrome.runtime.lastError) {
-        console.error('Error saving setting:', chrome.runtime.lastError);
-        showStatusMessage('Error saving settings', 'error');
-      } else {
-        showStatusMessage('Settings saved!', 'success');
-      }
-    });
-  }
-
-  // Update statistics
-  function updateStatistics(pagesIncrement = 0, termsIncrement = 0) {
-    chrome.storage.local.get([STORAGE_KEYS.pagesExplained, STORAGE_KEYS.termsSimplified], function(data) {
-      const newPagesCount = (data[STORAGE_KEYS.pagesExplained] || 0) + pagesIncrement;
-      const newTermsCount = (data[STORAGE_KEYS.termsSimplified] || 0) + termsIncrement;
-
-      chrome.storage.local.set({
-        [STORAGE_KEYS.pagesExplained]: newPagesCount,
-        [STORAGE_KEYS.termsSimplified]: newTermsCount
-      }, function() {
-        pagesExplainedSpan.textContent = newPagesCount;
-        termsSimplifiedSpan.textContent = newTermsCount;
-
-        if (newPagesCount > 0 || newTermsCount > 0) {
-          statsSection.style.display = 'flex';
-        }
-      });
-    });
-  }
-
-  // Show status message to user
-  function showStatusMessage(message, type = 'info') {
-    statusMessage.textContent = message;
-    statusMessage.className = `status-message ${type}`;
-
-    // Clear message after 3 seconds
-    setTimeout(() => {
-      statusMessage.textContent = '';
-      statusMessage.className = 'status-message';
-    }, 3000);
-  }
-
-  // Set button loading state
-  function setButtonLoading(button, isLoading) {
-    if (isLoading) {
-      button.classList.add('loading');
-      button.disabled = true;
-    } else {
-      button.classList.remove('loading');
-      button.disabled = false;
+    } catch (error) {
+      console.error('Failed to load settings:', error);
     }
   }
 
-  // Get current active tab
-  function getCurrentTab(callback) {
-    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-      if (tabs.length > 0) {
-        callback(tabs[0]);
+  // Save user settings
+  async function saveSettings() {
+    try {
+      await chrome.storage.sync.set({
+        explainPageLevel: levelSelect.value,
+        autoDetect: autoDetectCheckbox.checked
+      });
+
+      showStatus('Settings saved!', 'success');
+    } catch (error) {
+      console.error('Failed to save settings:', error);
+      showStatus('Failed to save settings', 'error');
+    }
+  }
+
+  // Load usage statistics
+  async function loadStats() {
+    try {
+      const result = await chrome.storage.sync.get([
+        'pagesExplained',
+        'totalWordsSimplified',
+        'lastUsed'
+      ]);
+
+      pagesExplainedElement.textContent = result.pagesExplained || 0;
+      wordsSimplifiedElement.textContent = result.totalWordsSimplified || 0;
+
+      if (result.lastUsed) {
+        const lastUsedDate = new Date(result.lastUsed);
+        const now = new Date();
+        const diffInHours = Math.floor((now - lastUsedDate) / (1000 * 60 * 60));
+
+        if (diffInHours < 1) {
+          lastUsedElement.textContent = 'Used just now';
+        } else if (diffInHours < 24) {
+          lastUsedElement.textContent = `Used ${diffInHours} hour${diffInHours === 1 ? '' : 's'} ago`;
+        } else {
+          const diffInDays = Math.floor(diffInHours / 24);
+          lastUsedElement.textContent = `Used ${diffInDays} day${diffInDays === 1 ? '' : 's'} ago`;
+        }
       } else {
-        callback(null);
+        lastUsedElement.textContent = 'Never used';
       }
-    });
+    } catch (error) {
+      console.error('Failed to load stats:', error);
+    }
   }
 
   // Explain current page
-  function explainCurrentPage() {
-    setButtonLoading(explainCurrentPageBtn, true);
-    showStatusMessage('Analyzing and explaining page...', 'info');
+  async function explainCurrentPage() {
+    try {
+      explainBtn.classList.add('loading');
+      explainBtn.textContent = 'Processing...';
 
-    getCurrentTab(function(tab) {
-      if (!tab) {
-        showStatusMessage('Could not access current tab', 'error');
-        setButtonLoading(explainCurrentPageBtn, false);
-        return;
+      const [tab] = await chrome.tabs.query({
+        active: true,
+        currentWindow: true
+      });
+
+      if (!tab || !tab.id) {
+        throw new Error('No active tab found');
       }
 
-      // Skip certain URLs
-      const skipUrls = ['chrome://', 'chrome-extension://', 'moz-extension://', 'about:', 'edge://'];
-      if (skipUrls.some(url => tab.url.startsWith(url))) {
-        showStatusMessage('Cannot explain this type of page', 'error');
-        setButtonLoading(explainCurrentPageBtn, false);
-        return;
+      // Check if page is explainable
+      if (tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://')) {
+        throw new Error('Cannot explain browser pages');
       }
 
-      // Inject script to trigger explanation
-      chrome.scripting.executeScript({
+      // Inject content script and trigger explanation
+      await chrome.scripting.executeScript({
         target: { tabId: tab.id },
-        function: triggerPageExplanation
-      }, function(results) {
-        setButtonLoading(explainCurrentPageBtn, false);
-
-        if (chrome.runtime.lastError) {
-          console.error('Error injecting script:', chrome.runtime.lastError);
-          showStatusMessage('Error explaining page', 'error');
-        } else {
-          showStatusMessage('Page explanation opened!', 'success');
-          updateStatistics(1, 5); // Increment pages explained and estimate terms simplified
-
-          // Close popup after successful explanation
-          setTimeout(() => {
-            window.close();
-          }, 1000);
+        function: () => {
+          window.dispatchEvent(new CustomEvent('explain-page-request'));
         }
       });
-    });
-  }
 
-  // Function to inject for triggering explanation
-  function triggerPageExplanation() {
-    // Send custom event to content script
-    window.dispatchEvent(new CustomEvent('explain-page-request'));
-  }
+      showStatus('Page explanation started!', 'success');
 
-  // Analyze page complexity
-  function analyzePageComplexity() {
-    setButtonLoading(analyzeComplexityBtn, true);
-    showStatusMessage('Analyzing page complexity...', 'info');
-
-    getCurrentTab(function(tab) {
-      if (!tab) {
-        showStatusMessage('Could not access current tab', 'error');
-        setButtonLoading(analyzeComplexityBtn, false);
-        return;
-      }
-
-      // Inject script to analyze complexity
-      chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: analyzePageComplexityScript
-      }, function(results) {
-        setButtonLoading(analyzeComplexityBtn, false);
-
-        if (chrome.runtime.lastError) {
-          console.error('Error analyzing complexity:', chrome.runtime.lastError);
-          showStatusMessage('Error analyzing page', 'error');
-        } else if (results && results[0] && results[0].result) {
-          const analysis = results[0].result;
-          const complexityText = analysis.isComplex ? 'Complex' : 'Simple';
-          showStatusMessage(`Page complexity: ${complexityText} (Score: ${analysis.score})`, 'info');
-        }
-      });
-    });
-  }
-
-  // Function to inject for complexity analysis
-  function analyzePageComplexityScript() {
-    const bodyText = document.body.innerText || '';
-    const words = bodyText.split(/\s+/).filter(word => word.length > 0);
-    const longWords = words.filter(word => word.length > 12);
-    const sentences = bodyText.split(/[.!?]+/).filter(s => s.trim().length > 0);
-    const avgWordsPerSentence = sentences.length > 0 ? words.length / sentences.length : 0;
-
-    // Simple complexity scoring
-    const longWordScore = (longWords.length / words.length) * 100;
-    const sentenceLengthScore = Math.min(avgWordsPerSentence * 2, 50);
-    const totalScore = Math.round(longWordScore + sentenceLengthScore);
-
-    return {
-      isComplex: totalScore > 30,
-      score: totalScore,
-      totalWords: words.length,
-      longWords: longWords.length,
-      averageWordsPerSentence: Math.round(avgWordsPerSentence)
-    };
-  }
-
-  // Attach event listeners
-  function attachEventListeners() {
-    // Complexity level change
-    complexityLevel.addEventListener('change', function() {
-      saveSetting(STORAGE_KEYS.complexityLevel, this.value);
-    });
-
-    // Auto-detect checkbox
-    autoDetectCheckbox.addEventListener('change', function() {
-      saveSetting(STORAGE_KEYS.autoDetect, this.checked);
-    });
-
-    // Show tooltips checkbox
-    showTooltipsCheckbox.addEventListener('change', function() {
-      saveSetting(STORAGE_KEYS.showTooltips, this.checked);
-    });
-
-    // Explain current page button
-    explainCurrentPageBtn.addEventListener('click', explainCurrentPage);
-
-    // Analyze complexity button
-    analyzeComplexityBtn.addEventListener('click', analyzePageComplexity);
-
-    // Help link
-    helpLink.addEventListener('click', function(e) {
-      e.preventDefault();
-      showStatusMessage('Visit extension store page for help', 'info');
-    });
-
-    // Feedback link
-    feedbackLink.addEventListener('click', function(e) {
-      e.preventDefault();
-      showStatusMessage('Thanks for your interest in feedback!', 'success');
-    });
-
-    // Keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-        explainCurrentPage();
-      } else if (e.key === 'Escape') {
+      // Close popup after short delay
+      setTimeout(() => {
         window.close();
-      }
-    });
+      }, 1000);
+
+    } catch (error) {
+      console.error('Failed to explain page:', error);
+      showStatus(error.message || 'Failed to explain page', 'error');
+    } finally {
+      explainBtn.classList.remove('loading');
+      explainBtn.textContent = 'Explain Current Page';
+    }
   }
 
-  // Handle errors gracefully
-  window.addEventListener('error', function(e) {
-    console.error('Popup error:', e.error);
-    showStatusMessage('An error occurred', 'error');
-  });
+  // Open test page (Wikipedia)
+  function openTestPage() {
+    const testUrls = [
+      'https://en.wikipedia.org/wiki/Artificial_intelligence',
+      'https://en.wikipedia.org/wiki/Quantum_computing',
+      'https://en.wikipedia.org/wiki/Machine_learning',
+      'https://en.wikipedia.org/wiki/Blockchain',
+      'https://en.wikipedia.org/wiki/Climate_change'
+    ];
 
-  // Initialize when DOM is ready
-  initializePopup();
+    const randomUrl = testUrls[Math.floor(Math.random() * testUrls.length)];
+    chrome.tabs.create({ url: randomUrl });
+    window.close();
+  }
+
+  // Show help information
+  function showHelp(e) {
+    e.preventDefault();
+
+    const helpText = `
+How to use Explain This Page:
+
+1. AUTOMATIC MODE:
+   • Extension detects complex pages
+   • Blue banner appears automatically
+   • Click banner to start explanation
+
+2. MANUAL MODE:
+   • Click extension icon
+   • Select reading level
+   • Click "Explain Current Page"
+
+3. TEXT SELECTION:
+   • Select any text on a page
+   • Right-click → "Explain selected text"
+
+READING LEVELS:
+• Elementary: Simple words, short sentences
+• Middle School: Moderate complexity
+• High School: More advanced but clear
+
+TIPS:
+• Works best on text-heavy pages
+• Hover over blue words for definitions
+• Use side-by-side view to compare
+• Try different reading levels
+
+The extension works on most websites but cannot access browser pages (chrome://) or some secure sites.
+    `;
+
+    alert(helpText);
+  }
+
+  // Reset all settings and stats
+  async function resetSettings(e) {
+    e.preventDefault();
+
+    if (confirm('Reset all settings and statistics? This cannot be undone.')) {
+      try {
+        await chrome.storage.sync.clear();
+
+        // Reset UI to defaults
+        levelSelect.value = 'middle';
+        autoDetectCheckbox.checked = true;
+        pagesExplainedElement.textContent = '0';
+        wordsSimplifiedElement.textContent = '0';
+        lastUsedElement.textContent = 'Never used';
+
+        showStatus('Settings reset successfully!', 'success');
+      } catch (error) {
+        console.error('Failed to reset settings:', error);
+        showStatus('Failed to reset settings', 'error');
+      }
+    }
+  }
+
+  // Show status message
+  function showStatus(message, type = 'success') {
+    statusDiv.textContent = message;
+    statusDiv.className = `status-message ${type} show`;
+
+    // Hide after 3 seconds
+    setTimeout(() => {
+      statusDiv.classList.remove('show');
+    }, 3000);
+  }
+
+  // Check for updates periodically
+  setInterval(loadStats, 30000); // Refresh stats every 30 seconds
 });
 
-// Handle extension icon click (alternative to popup)
-if (typeof chrome !== 'undefined' && chrome.action) {
-  chrome.action.onClicked.addListener(function(tab) {
-    // This will be handled by background.js, but kept here for reference
-    console.log('Extension icon clicked on tab:', tab.id);
-  });
-}
+// Handle errors globally
+window.addEventListener('error', function(e) {
+  console.error('Popup error:', e.error);
+});

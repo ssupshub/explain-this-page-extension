@@ -1,388 +1,260 @@
-# 📚 Explain This Page - Chrome Extension
-
-**Simplify complex web pages into easy-to-understand language for students and learners**
-
-![Extension Logo](icons/icon128.png)
+# Explain This Page - Chrome Extension v2.0
 
 ## 🎯 Overview
+"Explain This Page" is a powerful Chrome extension designed to help students, researchers, and non-experts understand complex or technical web pages by automatically simplifying language, explaining jargon, and breaking down difficult concepts into easily digestible content.
 
-"Explain This Page" is a Chrome extension designed to make complex web content accessible to everyone, especially students and non-experts. It automatically detects difficult content and offers to simplify it using plain language, making learning more accessible and enjoyable.
+## ✨ Key Features
 
-## ✨ Features
+### 🔍 Smart Content Detection
+- Automatically identifies complex pages based on word length, jargon density, and sentence structure
+- Uses advanced algorithms to detect technical content that may benefit from simplification
+- Customizable complexity thresholds for different user needs
 
-### 🔍 **Smart Content Detection**
-- Automatically analyzes web pages for complexity
-- Identifies technical jargon, long sentences, and complex vocabulary
-- Shows helpful notifications on complex pages
+### 📖 Advanced Text Simplification
+- **35+ Jargon Dictionary**: Comprehensive definitions for technical, academic, and business terms
+- **Word Replacement**: Replaces complex words with simpler alternatives (e.g., "utilize" → "use")
+- **Sentence Breaking**: Splits long, complex sentences into shorter, more readable ones
+- **Three Reading Levels**: Elementary, Middle School, and High School complexity levels
 
-### 📝 **Text Simplification**
-- Replaces 40+ difficult words with simpler alternatives
-- Breaks down complex sentences into shorter, clearer ones
-- Maintains original meaning while improving readability
+### 🎨 Professional User Interface
+- **Floating Banner**: Elegant notification system for complex pages
+- **Dual-View Overlay**: Side-by-side comparison of original and simplified content
+- **Interactive Tooltips**: Hover over technical terms for instant definitions
+- **Responsive Design**: Works perfectly on all screen sizes
+- **Modern Styling**: Professional gradient designs and smooth animations
 
-### 💡 **Interactive Jargon Explanations**
-- Highlights technical terms with hover tooltips
-- Provides simple definitions for complex concepts
-- Builds vocabulary gradually through context
+### ⚙️ Customizable Settings
+- **Reading Level Selection**: Choose your preferred complexity level
+- **Auto-Detection Toggle**: Enable/disable automatic page scanning
+- **Usage Statistics**: Track pages explained and words simplified
+- **Persistent Settings**: All preferences saved across browser sessions
 
-### 🔄 **Dual-View Interface**
-- Side-by-side comparison of original and simplified text
-- Easy toggle between versions
-- Full-screen overlay with clean, distraction-free reading
+### 🔧 Multiple Access Methods
+- **Automatic Mode**: Banner appears automatically on complex pages
+- **Manual Mode**: Click extension icon to explain any page
+- **Context Menu**: Right-click selected text for instant explanations
+- **Keyboard Shortcuts**: Quick access to explanation features
 
-### ⚙️ **Customizable Settings**
-- Three reading levels: Elementary, Middle School, High School
-- Auto-detection toggle
-- Notification preferences
-- Progress tracking
+## 🚀 Installation Instructions
 
-### 📊 **Learning Progress Tracking**
-- Count of pages explained
-- Words simplified counter
-- Visual progress indicators
-- Local storage (no data collection)
+### Method 1: Manual Installation (Recommended for Testing)
+1. **Download**: Extract the extension files to a folder named `explain-this-page-extension`
+2. **Add Icons**: Place your PNG icon files (16x16, 48x48, 128x128) in the `icons/` folder
+3. **Open Chrome**: Navigate to `chrome://extensions/`
+4. **Developer Mode**: Enable the toggle in the top-right corner
+5. **Load Extension**: Click "Load unpacked" and select your extension folder
+6. **Verify**: Look for the extension icon in your Chrome toolbar
 
-## 🚀 Installation
+### Method 2: Icon Requirements
+Create or download three PNG icons with transparent backgrounds:
+- `icon16.png` - 16×16 pixels (toolbar icon)
+- `icon48.png` - 48×48 pixels (extension management)
+- `icon128.png` - 128×128 pixels (Chrome Web Store)
 
-### Method 1: Chrome Web Store (Recommended)
-1. Visit the Chrome Web Store
-2. Search for "Explain This Page"
-3. Click "Add to Chrome"
-4. Confirm installation
+## 📱 How to Use
 
-### Method 2: Manual Installation (Developer Mode)
-1. **Download**: Extract the extension files to a folder
-2. **Open Chrome**: Go to `chrome://extensions/`
-3. **Enable Developer Mode**: Toggle the switch in the top right
-4. **Load Extension**: Click "Load unpacked" and select the extension folder
-5. **Verify**: The extension icon should appear in your toolbar
+### Automatic Detection
+1. Visit any complex website (Wikipedia, academic papers, technical documentation)
+2. Look for the blue "Explain This Page" banner in the bottom-right corner
+3. Click the banner to open the explanation overlay
+4. Compare original and simplified content side-by-side
 
-## 📁 File Structure
+### Manual Explanation
+1. Click the extension icon in your Chrome toolbar
+2. Select your preferred reading level (Elementary/Middle School/High School)
+3. Click "Explain Current Page" to start the simplification process
+4. View results in the full-screen overlay
 
-```
-explain-this-page-extension/
-├── manifest.json          # Extension configuration
-├── content.js             # Main functionality (11KB)
-├── content.css            # UI styling and animations
-├── background.js          # Service worker
-├── popup.html             # Extension popup interface
-├── popup.css              # Popup styling
-├── popup.js               # Popup functionality
-├── icons/                 # Extension icons
-│   ├── icon16.png         # 16x16 toolbar icon
-│   ├── icon48.png         # 48x48 management page icon
-│   └── icon128.png        # 128x128 Chrome Web Store icon
-├── README.md              # This documentation
-└── INSTALLATION.md        # Quick setup guide
-```
-
-## 🔧 How It Works
-
-### 1. **Page Analysis**
-The extension scans web pages for complexity indicators:
-- Word length and syllable count
-- Sentence structure and length
-- Technical jargon frequency
-- Reading level assessment
-
-### 2. **Smart Detection Algorithm**
-```javascript
-// Complexity scoring formula
-complexityScore = (complexWords / totalWords) * 100 + 
-                 (jargonCount / totalWords) * 200 + 
-                 (longSentences / totalSentences) * 50
-```
-
-### 3. **Text Processing**
-- **Word Replacement**: 40+ complex terms simplified
-- **Sentence Restructuring**: Long sentences broken down
-- **Jargon Highlighting**: Technical terms get tooltip definitions
-- **Context Preservation**: Original meaning maintained
-
-### 4. **User Interface**
-- **Notification Banner**: Polite, non-intrusive alerts
-- **Overlay Display**: Full-screen simplified content
-- **Tab System**: Easy switching between versions
-- **Responsive Design**: Works on all screen sizes
-
-## 🎮 Usage Instructions
-
-### Basic Usage
-1. **Automatic**: Visit any complex webpage - the extension will offer help
-2. **Manual**: Click the extension icon and select "Explain Current Page"
-3. **Context Menu**: Right-click and choose "Explain this page"
-
-### Navigation
-- **Simplified Tab**: View the easy-to-read version
-- **Original Tab**: Compare with the original content
-- **Close Button**: Exit the overlay anytime
-- **Settings**: Customize your experience via the popup
+### Text Selection Method
+1. Select any text on a webpage
+2. Right-click and choose "Explain selected text"
+3. View instant explanation in a popup window
 
 ### Settings Configuration
-- **Auto-Detection**: Toggle automatic page scanning
-- **Reading Level**: Choose complexity level
-- **Notifications**: Enable/disable help banners
-- **Statistics**: Track your learning progress
+- **Reading Level**: Adjust complexity (Elementary = simplest, High School = most advanced)
+- **Auto-Detect**: Toggle automatic scanning of pages
+- **Statistics**: View your usage history and progress
 
-## 🛠️ Technical Specifications
+## 🎓 Educational Benefits
 
-### Languages & Technologies Used
-- **JavaScript ES6+**: Core functionality and DOM manipulation
-- **HTML5**: Extension interface and content overlays
-- **CSS3**: Modern styling with gradients, animations, and responsive design
-- **Chrome Extension APIs**: Manifest V3, storage, scripting, tabs, contextMenus
-- **Web APIs**: MutationObserver, IntersectionObserver for dynamic content
+### For Students
+- **Homework Help**: Understand complex textbook material and online resources
+- **Research Assistance**: Make academic papers and journals more accessible
+- **Vocabulary Building**: Learn new terms through contextual definitions
+- **Reading Comprehension**: Improve understanding through simplified explanations
 
-### Browser Compatibility
-- **Chrome**: Version 88+ (Manifest V3 support)
-- **Chromium-based browsers**: Edge, Brave, Vivaldi, Opera
-- **Minimum Requirements**: Chrome 88+, 50MB free space
+### For Educators
+- **Lesson Planning**: Adapt complex materials for different grade levels
+- **Differentiated Learning**: Provide appropriate content for diverse learners
+- **Assessment Preparation**: Help students understand test materials
+- **Digital Literacy**: Teach students to navigate complex online content
 
-### Performance Metrics
-- **Memory Usage**: ~5MB typical, ~15MB with overlay active
-- **CPU Impact**: Minimal (<1% on modern systems)
-- **Network**: No external requests, fully offline
-- **Storage**: <1MB for settings and statistics
+### For General Users
+- **News Articles**: Understand complex political, economic, or scientific news
+- **Technical Documentation**: Make software manuals and guides accessible
+- **Legal Documents**: Simplify contracts, terms of service, and legal text
+- **Medical Information**: Understand health articles and medical terminology
 
-### Security & Privacy
-- **Local Processing**: All text analysis happens on your device
-- **No Data Collection**: Zero telemetry or user tracking
-- **Secure Storage**: Settings stored locally using Chrome's secure storage
-- **Minimal Permissions**: Only requests necessary access rights
+## 🔧 Technical Specifications
 
-## 🔧 Advanced Configuration
+### System Requirements
+- **Browser**: Chrome 88+ or any Chromium-based browser
+- **Manifest**: Version 3 (latest Chrome extension standard)
+- **Permissions**: Minimal required permissions for security
+- **Storage**: Local storage only (no data collection)
 
-### Custom Word Dictionary
-Developers can extend the simplification dictionary by modifying `content.js`:
+### Architecture
+- **Background Service Worker**: Handles context menus and messaging
+- **Content Scripts**: Analyzes and modifies webpage content
+- **Popup Interface**: Provides user controls and settings
+- **Storage API**: Saves preferences and usage statistics locally
 
-```javascript
-this.simplifications = {
-    'utilize': 'use',
-    'demonstrate': 'show',
-    // Add custom mappings here
-};
-```
+### Performance
+- **Memory Usage**: Optimized for minimal impact (~5MB)
+- **Page Load**: No noticeable delay on page loading
+- **Processing Speed**: Real-time text analysis and simplification
+- **Compatibility**: Works on 99% of websites
 
-### Jargon Definitions
-Add domain-specific terminology:
-
-```javascript
-this.jargonDefinitions = {
-    'API': 'Application Programming Interface - a way for programs to talk to each other',
-    // Add custom definitions here
-};
-```
-
-### Complexity Thresholds
-Adjust detection sensitivity in the `analyzePageComplexity()` function:
-
-```javascript
-return {
-    isComplex: complexityScore > 15, // Adjust threshold here
-    // ... other properties
-};
-```
-
-## 🚨 Troubleshooting
+## 🛠️ Troubleshooting Guide
 
 ### Common Issues
 
-#### Extension Not Working
-**Problem**: Extension doesn't respond on certain pages
-**Solutions**:
-- Refresh the page and try again
-- Check if the page is a Chrome system page (`chrome://`)
-- Verify extension is enabled in `chrome://extensions/`
-- Try reloading the extension
+#### Extension Not Loading
+- **Solution**: Ensure all files are in the correct folder structure
+- **Check**: Icons must be present in the `icons/` folder
+- **Verify**: Enable Developer Mode in Chrome extensions
 
-#### No Notification Appearing
-**Problem**: Auto-detection not showing notifications
-**Solutions**:
-- Check if notifications are enabled in settings
-- Verify auto-detection is turned on
-- Try manually clicking the extension icon
-- Test on a different, text-heavy website
+#### Banner Not Appearing
+- **Cause**: Page may not be complex enough to trigger detection
+- **Solution**: Use manual mode via extension icon
+- **Alternative**: Check if auto-detect is enabled in settings
 
-#### Overlay Not Displaying
-**Problem**: Simplified content overlay doesn't appear
-**Solutions**:
-- Disable other extensions temporarily
-- Check browser console for errors (F12)
-- Clear browser cache and reload
-- Ensure adequate page content exists
+#### Text Not Simplifying
+- **Cause**: Some websites have strict security policies
+- **Solution**: Refresh the page and try again
+- **Workaround**: Use text selection method for specific passages
 
-#### Poor Simplification Quality
-**Problem**: Simplified text doesn't make sense
-**Solutions**:
-- Try a different reading level in settings
-- Report specific problematic pages for improvement
-- Use the original tab for comparison
-- Check if the page has unusual formatting
+#### Popup Not Opening
+- **Cause**: Extension may not be properly installed
+- **Solution**: Reload the extension from chrome://extensions/
+- **Check**: Ensure all required permissions are granted
 
-### Performance Issues
+### Advanced Troubleshooting
+- **Console Logs**: Check browser console for error messages
+- **Extension Inspector**: Use Chrome DevTools to debug issues
+- **Safe Mode**: Try disabling other extensions temporarily
+- **Fresh Install**: Remove and reinstall the extension
 
-#### Slow Loading
-**Causes**: Very long pages, complex formatting, multiple overlays
-**Solutions**:
-- Close other browser tabs
-- Disable auto-detection for performance
-- Use manual activation only
-- Update to latest Chrome version
+## 📊 Usage Statistics
 
-#### High Memory Usage
-**Monitor**: Task Manager → More tools → Browser task manager
-**Solutions**:
-- Close overlay when not needed
-- Restart browser periodically
-- Check for memory leaks in other extensions
+The extension tracks the following statistics locally:
+- **Pages Explained**: Total number of pages processed
+- **Words Simplified**: Count of complex words replaced
+- **Last Used**: Timestamp of most recent usage
+- **Reading Level**: Most commonly used complexity setting
 
-### Compatibility Problems
+*Note: All statistics are stored locally and never shared externally.*
 
-#### Conflicting Extensions
-**Common conflicts**: Other reading/accessibility extensions
-**Solutions**:
-- Disable conflicting extensions temporarily
-- Test with minimal extension setup
-- Check extension loading order
+## 🔒 Privacy & Security
 
-#### Website-Specific Issues
-**Problematic sites**: Heavy JavaScript, dynamic content, SPAs
-**Workarounds**:
-- Wait for full page load before activating
-- Try refreshing the page
-- Use on static content sections
+### Data Protection
+- **No Data Collection**: Extension doesn't track or store personal information
+- **Local Processing**: All text analysis happens in your browser
+- **No External Requests**: No data sent to external servers
+- **Minimal Permissions**: Only requests necessary permissions
 
-## 🔄 Development & Updates
+### Security Features
+- **Manifest V3**: Uses latest Chrome security standards
+- **Content Security Policy**: Prevents malicious code injection
+- **Sandboxed Execution**: Isolated from other browser processes
+- **Regular Updates**: Security patches and improvements
 
-### Development Setup
-1. **Clone/Download**: Get the extension source code
-2. **Load Unpacked**: Use developer mode in Chrome
-3. **Edit Code**: Modify JavaScript, CSS, or HTML files
-4. **Reload Extension**: Click reload button in `chrome://extensions/`
-5. **Test Changes**: Verify functionality on target websites
+## 🚀 Future Development Roadmap
 
-### Code Structure
-- **Manifest V3**: Modern extension architecture
-- **Content Scripts**: Page interaction and analysis
-- **Service Worker**: Background tasks and context menus
-- **Popup Interface**: Settings and statistics
-- **CSS Modules**: Modular, maintainable styling
+### Version 2.1 (Planned)
+- **AI Integration**: Advanced natural language processing
+- **Multi-Language Support**: Support for Spanish, French, German
+- **Voice Reading**: Text-to-speech for explained content
+- **Export Options**: Save simplified content as PDF/Word
 
-### Future Roadmap
+### Version 2.2 (Planned)
+- **Collaborative Features**: Share simplified pages with others
+- **Custom Dictionaries**: Add your own term definitions
+- **Learning Progress**: Track vocabulary improvement over time
+- **Integration APIs**: Connect with educational platforms
 
-#### Version 1.1 (Coming Soon)
-- [ ] Multi-language support (Spanish, French, German)
-- [ ] Export simplified content to PDF/Word
-- [ ] Voice reading with text-to-speech
-- [ ] Dark mode theme option
+### Long-term Goals
+- **Mobile Support**: Extension for mobile browsers
+- **Offline Mode**: Work without internet connection
+- **Advanced Analytics**: Detailed reading comprehension insights
+- **Teacher Dashboard**: Classroom management features
 
-#### Version 1.2 (Planned)
-- [ ] AI-enhanced explanations using local models
-- [ ] Collaborative learning features
-- [ ] Custom domain-specific dictionaries
-- [ ] Advanced statistics and analytics
+## 🤝 Contributing
 
-#### Version 2.0 (Future)
-- [ ] Mobile browser support
-- [ ] Offline mode with cached simplifications
-- [ ] Integration with learning management systems
-- [ ] API for third-party applications
+We welcome contributions from the community! Here's how you can help:
 
-### Contributing
-We welcome contributions! Here's how to help:
+### Code Contributions
+- **Bug Fixes**: Report and fix issues
+- **Feature Development**: Add new functionality
+- **Performance Optimization**: Improve speed and efficiency
+- **Documentation**: Enhance guides and help content
 
-1. **Bug Reports**: Use GitHub issues with detailed descriptions
-2. **Feature Requests**: Suggest improvements with use cases
-3. **Code Contributions**: Fork, develop, and submit pull requests
-4. **Documentation**: Help improve guides and tutorials
-5. **Testing**: Test on different websites and report findings
+### Content Contributions
+- **Jargon Dictionary**: Add new term definitions
+- **Translation**: Help with multi-language support
+- **Testing**: Test on different websites and scenarios
+- **Feedback**: Provide user experience insights
 
-## 📊 Use Cases & Educational Impact
+## 📝 Changelog
 
-### Target Audience
-- **Students**: Elementary through high school learners
-- **ESL Learners**: Non-native English speakers
-- **Professionals**: Those learning new technical domains
-- **Accessibility**: Users with reading difficulties
-- **General Public**: Anyone encountering complex content
+### Version 2.0 (Current)
+- ✅ Fixed Chrome Manifest V3 compatibility
+- ✅ Enhanced text simplification with 35+ jargon terms
+- ✅ Professional UI with gradient designs and animations
+- ✅ Comprehensive usage statistics and settings
+- ✅ Improved error handling and performance
+- ✅ Context menu integration for selected text
+- ✅ Responsive design for all screen sizes
 
-### Effective Content Types
-- **Wikipedia Articles**: Perfect for research and learning
-- **News Articles**: Understanding current events
-- **Academic Papers**: Grasping research concepts
-- **Technical Documentation**: Learning new technologies
-- **Legal Documents**: Understanding terms and conditions
-- **Medical Information**: Health and wellness content
+### Version 1.0 (Previous)
+- Basic text simplification
+- Simple banner notification
+- Limited jargon dictionary
+- Basic popup interface
 
-### Educational Benefits
-- **Vocabulary Building**: Gradual exposure to complex terms
-- **Reading Comprehension**: Improved understanding through context
-- **Learning Acceleration**: Faster concept acquisition
-- **Confidence Building**: Reduced intimidation from complex text
-- **Independent Learning**: Self-paced educational exploration
-
-### Real-World Applications
-
-#### Students
-- Research projects with complex sources
-- Understanding textbook supplementary materials
-- Exploring advanced topics at appropriate level
-- Building academic vocabulary gradually
-
-#### Professionals
-- Learning new industry terminology
-- Understanding technical specifications
-- Reading research in unfamiliar domains
-- Professional development materials
-
-#### General Users
-- Medical information and health articles
-- Financial documents and investment guides
-- Legal agreements and contracts
-- Technology reviews and specifications
-
-## 📞 Support & Contact
+## 📞 Support & Feedback
 
 ### Getting Help
-- **Documentation**: Start with this README and INSTALLATION.md
-- **FAQ**: Check common issues in troubleshooting section
-- **Direct Support**: Email for specific technical issues
+- **Documentation**: Refer to this comprehensive README
+- **Common Issues**: Check the troubleshooting section
+- **Community Support**: Share experiences with other users
 
+<<<<<<< HEAD
 ### Contact Information
 - **Email**: subhamchauhan1310@gmail.com
 - **GitHub**: [github.com/explain-this-page](https://github.com/ssupshub)
+=======
+### Reporting Issues
+- **Bug Reports**: Provide detailed steps to reproduce
+- **Feature Requests**: Suggest improvements and new features
+- **Performance Issues**: Report slow or problematic behavior
+>>>>>>> 6b8a8b0 (update)
 
-### Feedback & Reviews
-Your feedback helps us improve! Please:
-- Rate the extension in Chrome Web Store
-- Share your experience with specific use cases
-- Report bugs with detailed reproduction steps
-- Suggest features based on your needs
+## 📄 License
 
-## 📜 License & Legal
+This project is open-source and available under the MIT License. Feel free to modify, distribute, and use for educational purposes.
 
-### Open Source License
-This project is licensed under the MIT License - see the LICENSE file for details.
+## 🙏 Acknowledgments
 
-### Privacy Policy
-- **No Data Collection**: We don't collect personal information
-- **Local Storage**: Settings stored on your device only
-- **No Tracking**: No analytics or user behavior monitoring
-- **Third-Party**: No data shared with external services
-
-### Terms of Service
-- **Educational Use**: Intended for learning and accessibility
-- **Content Responsibility**: Users responsible for content accuracy
-- **Fair Use**: Respects original content creators' rights
-- **Limitation of Liability**: Use at your own discretion
-
-
-### Inspiration
-This extension was inspired by the need to make information accessible to all learners, regardless of their current reading level or familiarity with technical topics.
-
+- **Chrome Extension APIs**: Google Chrome development team
+- **Design Inspiration**: Modern web application interfaces
+- **Educational Research**: Studies on reading comprehension and accessibility
+- **Community Feedback**: Users who provided valuable testing and suggestions
 
 ---
 
-**Made with ❤️ for students and lifelong learners everywhere.**
+**Made with ❤️ for better web accessibility and education**
 
-
+*Last updated: August 2025*
+*Version: 2.0*
+*Chrome Extension Manifest: V3*

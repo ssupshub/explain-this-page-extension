@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Explain This Page",
-  "version": "1.0",
-  "description": "Explains complex webpages in simpler language for students.",
+  "version": "2.0",
+  "description": "Explains complex webpages in simpler language for students with enhanced text simplification.",
   "permissions": [
     "scripting",
     "activeTab",
