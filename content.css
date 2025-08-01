@@ -1,310 +1,310 @@
-/* Enhanced CSS for Explain This Page extension v2.0 */
+/* Enhanced styles for Explain This Page extension v2.0 */
 
-/* Banner styles */
+/* Banner styling */
 #explain-page-banner {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: linear-gradient(135deg, #2d89ef 0%, #1b5fbd 100%);
-  color: white;
-  border-radius: 16px;
-  box-shadow: 0 6px 20px rgba(45, 137, 239, 0.3);
-  z-index: 999998;
-  cursor: pointer;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  transition: all 0.3s ease;
-  animation: slideInUp 0.5s ease-out;
-  max-width: 300px;
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;
+  font-size: 14px !important;
+  z-index: 999998 !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  transition: all 0.3s ease !important;
+  max-width: 280px !important;
+  animation: explainBannerSlideIn 0.5s ease-out !important;
 }
 
 #explain-page-banner:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(45, 137, 239, 0.4);
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5) !important;
 }
 
 .explain-banner-content {
-  display: flex;
-  align-items: center;
-  padding: 16px;
-  gap: 12px;
+  display: flex !important;
+  align-items: center !important;
+  padding: 12px 16px !important;
+  gap: 12px !important;
 }
 
 .explain-banner-icon {
-  font-size: 24px;
-  flex-shrink: 0;
+  font-size: 20px !important;
+  line-height: 1 !important;
 }
 
 .explain-banner-text {
-  flex: 1;
-  font-size: 14px;
-  line-height: 1.4;
+  flex-grow: 1 !important;
+  line-height: 1.3 !important;
 }
 
 .explain-banner-btn {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 8px !important;
+  color: white !important;
+  padding: 6px 12px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
 }
 
 .explain-banner-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
 }
 
-/* Overlay styles */
+/* Overlay styling */
 #explain-page-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.8);
-  z-index: 999999;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  animation: fadeIn 0.3s ease-out;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(0, 0, 0, 0.85) !important;
+  z-index: 999999 !important;
+  overflow: hidden !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;
+  animation: explainOverlayFadeIn 0.3s ease-out !important;
 }
 
 .explain-overlay-content {
-  background: white;
-  border-radius: 12px;
-  margin: 20px;
-  height: calc(100vh - 40px);
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  background: white !important;
+  border-radius: 16px !important;
+  margin: 20px !important;
+  height: calc(100vh - 40px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3) !important;
 }
 
 .explain-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 24px;
-  border-bottom: 1px solid #e1e5e9;
-  background: #f8f9fa;
-  border-radius: 12px 12px 0 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  padding: 20px 24px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  border-radius: 16px 16px 0 0 !important;
 }
 
 .explain-header h2 {
-  margin: 0;
-  color: #2d89ef;
-  font-size: 24px;
-  font-weight: 600;
+  margin: 0 !important;
+  font-size: 24px !important;
+  font-weight: 600 !important;
 }
 
 .explain-controls {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
 }
 
 #explain-level-selector {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-  background: white;
-  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 8px !important;
+  color: white !important;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+}
+
+#explain-level-selector option {
+  background: #667eea !important;
+  color: white !important;
 }
 
 #explain-close-btn {
-  background: #dc3545;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s ease;
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 8px !important;
+  color: white !important;
+  padding: 8px 16px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
 }
 
 #explain-close-btn:hover {
-  background: #c82333;
+  background: rgba(255, 255, 255, 0.3) !important;
 }
 
 .explain-content-container {
-  display: flex;
-  flex: 1;
-  min-height: 0;
+  display: flex !important;
+  flex: 1 !important;
+  min-height: 0 !important;
 }
 
 .explain-original-content,
 .explain-simplified-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-height: 0 !important;
 }
 
 .explain-original-content {
-  border-right: 1px solid #e1e5e9;
+  border-right: 1px solid #e1e5e9 !important;
 }
 
 .explain-original-content h3,
 .explain-simplified-content h3 {
-  margin: 0;
-  padding: 16px 24px;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e1e5e9;
-  font-size: 16px;
-  font-weight: 600;
-  color: #495057;
+  margin: 0 !important;
+  padding: 16px 20px !important;
+  background: #f8f9fa !important;
+  border-bottom: 1px solid #e1e5e9 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #333 !important;
 }
 
 .explain-content-scroll {
-  flex: 1;
-  overflow-y: auto;
-  padding: 24px;
-  line-height: 1.6;
-  font-size: 14px;
+  flex: 1 !important;
+  overflow-y: auto !important;
+  padding: 20px !important;
+  line-height: 1.6 !important;
+  color: #333 !important;
 }
 
 .explain-simplified-content .explain-content-scroll {
-  background: #f8fffe;
+  background: #f8fafe !important;
 }
 
 .explain-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100px;
-  color: #6c757d;
-  font-style: italic;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+  font-size: 16px !important;
+  color: #667eea !important;
+  font-weight: 500 !important;
 }
 
 .explain-stats {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  padding: 16px 24px;
-  background: #f8f9fa;
-  border-top: 1px solid #e1e5e9;
-  border-radius: 0 0 12px 12px;
-  font-size: 14px;
-  color: #495057;
+  background: #f8f9fa !important;
+  border-top: 1px solid #e1e5e9 !important;
+  padding: 16px 24px !important;
+  display: flex !important;
+  justify-content: space-around !important;
+  font-size: 14px !important;
+  color: #666 !important;
 }
 
-/* Tooltip styles */
+.explain-stats strong {
+  color: #667eea !important;
+  font-weight: 600 !important;
+}
+
+/* Tooltip styling */
 .explain-tooltip {
-  border-bottom: 2px dotted #2d89ef;
-  cursor: help;
-  position: relative;
-  color: #2d89ef;
-  font-weight: 500;
+  border-bottom: 2px dotted #667eea !important;
+  cursor: help !important;
+  position: relative !important;
+  color: #667eea !important;
+  font-weight: 500 !important;
 }
 
 .explain-tooltip:hover::after {
-  content: attr(title);
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #2d89ef;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
-  white-space: nowrap;
-  z-index: 1000000;
-  font-size: 12px;
-  font-weight: normal;
-  box-shadow: 0 4px 12px rgba(45, 137, 239, 0.3);
-  animation: tooltipFadeIn 0.2s ease-out;
-  max-width: 300px;
-  white-space: normal;
+  content: attr(title) !important;
+  position: absolute !important;
+  bottom: 125% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: #333 !important;
+  color: white !important;
+  padding: 8px 12px !important;
+  border-radius: 6px !important;
+  white-space: nowrap !important;
+  z-index: 1000000 !important;
+  font-size: 13px !important;
+  font-weight: normal !important;
+  opacity: 0.95 !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
+  max-width: 300px !important;
+  white-space: normal !important;
 }
 
 .explain-tooltip:hover::before {
-  content: '';
-  position: absolute;
-  bottom: 94%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 6px solid transparent;
-  border-top-color: #2d89ef;
-  z-index: 1000001;
+  content: '' !important;
+  position: absolute !important;
+  bottom: 115% !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  border: 5px solid transparent !important;
+  border-top-color: #333 !important;
+  z-index: 1000001 !important;
 }
 
 /* Animations */
-@keyframes slideInUp {
+@keyframes explainBannerSlideIn {
   from {
-    transform: translateY(100px);
     opacity: 0;
+    transform: translateX(100%);
   }
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateX(0);
   }
 }
 
-@keyframes fadeIn {
+@keyframes explainOverlayFadeIn {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
-  }
-}
-
-@keyframes tooltipFadeIn {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
   }
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
+  #explain-page-banner {
+    bottom: 10px !important;
+    right: 10px !important;
+    max-width: 250px !important;
+  }
+
   .explain-overlay-content {
-    margin: 10px;
-    height: calc(100vh - 20px);
+    margin: 10px !important;
+    height: calc(100vh - 20px) !important;
   }
 
   .explain-content-container {
-    flex-direction: column;
+    flex-direction: column !important;
   }
 
   .explain-original-content {
-    border-right: none;
-    border-bottom: 1px solid #e1e5e9;
+    border-right: none !important;
+    border-bottom: 1px solid #e1e5e9 !important;
+    max-height: 40% !important;
   }
 
-  #explain-page-banner {
-    bottom: 10px;
-    right: 10px;
-    max-width: 250px;
+  .explain-header {
+    padding: 16px 20px !important;
   }
 
-  .explain-banner-content {
-    padding: 12px;
-    gap: 8px;
+  .explain-header h2 {
+    font-size: 20px !important;
   }
 
-  .explain-banner-text {
-    font-size: 13px;
-  }
-
-  .explain-stats {
-    flex-direction: column;
-    gap: 8px;
-    text-align: center;
+  .explain-controls {
+    flex-direction: column !important;
+    gap: 8px !important;
   }
 }
 
-/* Print styles */
-@media print {
-  #explain-page-banner,
-  #explain-page-overlay {
-    display: none !important;
+/* Ensure tooltips work on mobile */
+@media (hover: none) {
+  .explain-tooltip:active::after,
+  .explain-tooltip:active::before {
+    display: block !important;
   }
 }

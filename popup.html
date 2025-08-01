@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Explain This Page</title>
-  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="popup.css"/>
 </head>
 <body>
   <div class="popup-container">
@@ -17,49 +17,60 @@
       <div class="setting-group">
         <label for="level-select">Reading Level:</label>
         <select id="level-select">
-          <option value="elementary">Elementary School</option>
-          <option value="middle">Middle School</option>
-          <option value="high">High School</option>
+          <option value="elementary">🌟 Elementary</option>
+          <option value="middle" selected>📚 Middle School</option>
+          <option value="high">🎓 High School</option>
         </select>
+        <div class="setting-description">
+          Choose how simple the explanations should be
+        </div>
       </div>
 
       <div class="setting-group">
         <label class="checkbox-label">
           <input type="checkbox" id="auto-detect" checked>
-          <span class="checkmark"></span>
+          <span class="checkbox-custom"></span>
           Auto-detect complex pages
         </label>
+        <div class="setting-description">
+          Automatically show help banner on difficult pages
+        </div>
       </div>
 
-      <div class="action-buttons">
-        <button id="explain-btn" class="primary-btn">Explain Current Page</button>
-        <button id="test-btn" class="secondary-btn">Test on Wikipedia</button>
-      </div>
+      <button id="explain-btn" class="primary-btn">
+        <span class="btn-icon">🔍</span>
+        Explain Current Page
+      </button>
 
       <div class="stats-section">
-        <h3>Usage Statistics</h3>
+        <h3>📊 Usage Statistics</h3>
         <div class="stats-grid">
           <div class="stat-item">
-            <div class="stat-number" id="pages-explained">0</div>
-            <div class="stat-label">Pages Explained</div>
+            <span class="stat-number" id="pages-count">0</span>
+            <span class="stat-label">Pages Explained</span>
           </div>
           <div class="stat-item">
-            <div class="stat-number" id="words-simplified">0</div>
-            <div class="stat-label">Words Simplified</div>
+            <span class="stat-number" id="words-count">0</span>
+            <span class="stat-label">Words Simplified</span>
           </div>
         </div>
-        <div class="last-used" id="last-used">Never used</div>
+        <div class="last-used" id="last-used"></div>
       </div>
 
-      <div class="status-message" id="status"></div>
+      <div class="help-section">
+        <details>
+          <summary>💡 How to Use</summary>
+          <div class="help-content">
+            <p><strong>Automatic Mode:</strong> Visit complex pages and look for the blue banner</p>
+            <p><strong>Manual Mode:</strong> Click "Explain Current Page" button above</p>
+            <p><strong>Text Selection:</strong> Right-click selected text for quick explanations</p>
+          </div>
+        </details>
+      </div>
     </div>
 
-    <div class="popup-footer">
-      <a href="#" id="help-link">Help & Tips</a>
-      <a href="#" id="reset-link">Reset Settings</a>
-    </div>
+    <div id="status" class="status-message"></div>
   </div>
-
   <script src="popup.js"></script>
 </body>
 </html>
