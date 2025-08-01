@@ -246,7 +246,7 @@ We welcome contributions! Here's how to help:
 - **Console Logs**: Use browser developer tools
 - **Community**: Search existing discussions
 
-<<<<<<< HEAD
+
 
 ### Contact Information
 - **Email**: subhamchauhan1310@gmail.com
@@ -257,12 +257,12 @@ We welcome contributions! Here's how to help:
 - **Feature Requests**: Suggest improvements and new features
 - **Performance Issues**: Report slow or problematic behavior
 
-=======
+
 ### Contact Information
 - **Issues**: Report bugs and feature requests
 - **Discussions**: General questions and feedback
 - **Email**: Extension support contact
->>>>>>> e4f05ee (Update)
+
 
 ## 📄 License
 
