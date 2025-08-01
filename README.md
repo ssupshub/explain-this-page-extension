@@ -229,7 +229,7 @@ We welcome contributions from the community! Here's how you can help:
 - **Common Issues**: Check the troubleshooting section
 - **Community Support**: Share experiences with other users
 
-<<<<<<< HEAD
+
 ### Contact Information
 - **Email**: subhamchauhan1310@gmail.com
 - **GitHub**: [github.com/explain-this-page](https://github.com/ssupshub)
@@ -238,7 +238,7 @@ We welcome contributions from the community! Here's how you can help:
 - **Bug Reports**: Provide detailed steps to reproduce
 - **Feature Requests**: Suggest improvements and new features
 - **Performance Issues**: Report slow or problematic behavior
->>>>>>> 6b8a8b0 (update)
+
 
 ## 📄 License
 
