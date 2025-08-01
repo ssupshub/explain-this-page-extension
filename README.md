@@ -233,7 +233,7 @@ We welcome contributions from the community! Here's how you can help:
 ### Contact Information
 - **Email**: subhamchauhan1310@gmail.com
 - **GitHub**: [github.com/explain-this-page](https://github.com/ssupshub)
-=======
+
 ### Reporting Issues
 - **Bug Reports**: Provide detailed steps to reproduce
 - **Feature Requests**: Suggest improvements and new features
