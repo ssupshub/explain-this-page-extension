@@ -1,5 +1,4 @@
-// popup.js — Explain This Page — fixes: immediate close and robust dispatch (v2.2)
-
+// popup.js v2.2.1 (unchanged behavior)
 const levelSelect = document.getElementById('level-select');
 const autoDetectCheckbox = document.getElementById('auto-detect');
 const explainBtn = document.getElementById('explain-btn');
@@ -7,137 +6,15 @@ const statusDiv = document.getElementById('status');
 const pagesCount = document.getElementById('pages-count');
 const wordsCount = document.getElementById('words-count');
 const lastUsedDiv = document.getElementById('last-used');
-
-function showStatus(message, duration = 2000) {
-  if (!statusDiv) return;
-  statusDiv.textContent = message || '';
-  if (duration > 0) setTimeout(()=> { if (statusDiv) statusDiv.textContent = ''; }, duration);
-}
-
-function loadSettings() {
-  try {
-    if (typeof chrome === 'undefined' || !chrome.storage) return;
-    chrome.storage.sync.get(['explainPageLevel', 'autoDetect', 'pagesExplained', 'totalWordsSimplified', 'lastUsed'], (result) => {
-      if (!result) return;
-      if (result.explainPageLevel && levelSelect) levelSelect.value = result.explainPageLevel;
-      if (result.autoDetect !== undefined && autoDetectCheckbox) autoDetectCheckbox.checked = result.autoDetect;
-      if (pagesCount) pagesCount.textContent = result.pagesExplained || 0;
-      if (wordsCount) wordsCount.textContent = result.totalWordsSimplified || 0;
-      if (result.lastUsed && lastUsedDiv) {
-        const d = new Date(result.lastUsed);
-        lastUsedDiv.textContent = `Last used: ${d.toLocaleString()}`;
-      }
-    });
-  } catch (e) {
-    console.error('loadSettings error', e);
-  }
-}
-
-function saveSettings() {
-  try {
-    if (typeof chrome === 'undefined' || !chrome.storage) return;
-    const settings = { explainPageLevel: levelSelect.value, autoDetect: autoDetectCheckbox.checked };
-    chrome.storage.sync.set(settings, () => {
-      if (chrome.runtime && chrome.runtime.lastError) {
-        showStatus('Error saving settings', 2000);
-      } else {
-        showStatus('Settings saved', 1200);
-      }
-    });
-  } catch (e) {
-    console.error('saveSettings error', e);
-  }
-}
-
-function setButtonLoading(isLoading) {
-  if (!explainBtn) return;
-  if (isLoading) {
-    explainBtn.classList.add('loading');
-    explainBtn.innerHTML = '<span class="btn-icon">🔄</span> Explaining...';
-  } else {
-    explainBtn.classList.remove('loading');
-    explainBtn.innerHTML = '<span class="btn-icon">🔍</span> Explain Current Page';
-  }
-}
-
-function explainCurrentPage() {
-  setButtonLoading(true);
-  showStatus('Analyzing page...', 0);
-
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (!tabs || !tabs.length) {
-      setButtonLoading(false);
-      showStatus('No active tab found', 1500);
-      return;
-    }
-    const tab = tabs[0];
-    if (!tab.url || tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('edge://')) {
-      setButtonLoading(false);
-      showStatus('Cannot explain internal pages', 1500);
-      return;
-    }
-
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: () => {
-        window.dispatchEvent(new CustomEvent('explain-page-request'));
-        return true;
-      }
-    }).then((results) => {
-      setButtonLoading(false);
-      showStatus('Opened explanation', 1200);
-      setTimeout(() => { try { window.close(); } catch(e){ } }, 350);
-    }).catch((err) => {
-      setButtonLoading(false);
-      console.error('explainCurrentPage error', err);
-      showStatus('Error explaining page', 1500);
-    });
-  });
-}
-
-function onLevelChange(newLevel) {
-  saveSettings();
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (!tabs || !tabs.length) return;
-    const tab = tabs[0];
-    if (!tab.id) return;
-    chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: (lvl) => {
-        window.dispatchEvent(new CustomEvent('explain-page-level-changed', { detail: lvl }));
-        return true;
-      },
-      args: [newLevel]
-    }).catch(err => console.warn('level change notify failed', err));
-  });
-}
-
-if (levelSelect) {
-  levelSelect.addEventListener('change', (e) => onLevelChange(e.target.value));
-}
-if (autoDetectCheckbox) {
-  autoDetectCheckbox.addEventListener('change', saveSettings);
-}
-if (explainBtn) {
-  explainBtn.addEventListener('click', explainCurrentPage);
-}
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && document.activeElement === explainBtn) explainCurrentPage();
-}
-
-function startStatsUpdater() {
-  setInterval(() => {
-    if (typeof chrome === 'undefined' || !chrome.storage) return;
-    chrome.storage.sync.get(['pagesExplained','totalWordsSimplified','lastUsed'], (res) => {
-      if (!res) return;
-      if (pagesCount && res.pagesExplained !== undefined) pagesCount.textContent = res.pagesExplained;
-      if (wordsCount && res.totalWordsSimplified !== undefined) wordsCount.textContent = res.totalWordsSimplified;
-      if (res.lastUsed && lastUsedDiv) lastUsedDiv.textContent = `Last: ${new Date(res.lastUsed).toLocaleString()}`;
-    });
-  }, 2000);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  loadSettings();
-  startStatsUpdater();
-});
+function showStatus(message, duration = 2000) { if (!statusDiv) return; statusDiv.textContent = message || ''; if (duration > 0) setTimeout(()=> { if (statusDiv) statusDiv.textContent = ''; }, duration); }
+function loadSettings() { try { if (typeof chrome === 'undefined' || !chrome.storage) return; chrome.storage.sync.get(['explainPageLevel', 'autoDetect', 'pagesExplained', 'totalWordsSimplified', 'lastUsed'], (result) => { if (!result) return; if (result.explainPageLevel && levelSelect) levelSelect.value = result.explainPageLevel; if (result.autoDetect !== undefined && autoDetectCheckbox) autoDetectCheckbox.checked = result.autoDetect; if (pagesCount) pagesCount.textContent = result.pagesExplained || 0; if (wordsCount) wordsCount.textContent = result.totalWordsSimplified || 0; if (result.lastUsed && lastUsedDiv) { const d = new Date(result.lastUsed); lastUsedDiv.textContent = `Last used: ${d.toLocaleString()}`; } }); } catch (e) { console.error('loadSettings error', e); } }
+function saveSettings() { try { if (typeof chrome === 'undefined' || !chrome.storage) return; const settings = { explainPageLevel: levelSelect.value, autoDetect: autoDetectCheckbox.checked }; chrome.storage.sync.set(settings, () => { if (chrome.runtime && chrome.runtime.lastError) { showStatus('Error saving settings', 2000); } else { showStatus('Settings saved', 1200); } }); } catch (e) { console.error('saveSettings error', e); } }
+function setButtonLoading(isLoading) { if (!explainBtn) return; if (isLoading) { explainBtn.classList.add('loading'); explainBtn.innerHTML = '<span class="btn-icon">🔄</span> Explaining...'; } else { explainBtn.classList.remove('loading'); explainBtn.innerHTML = '<span class="btn-icon">🔍</span> Explain Current Page'; } }
+function explainCurrentPage() { setButtonLoading(true); showStatus('Analyzing page...', 0); chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { if (!tabs || !tabs.length) { setButtonLoading(false); showStatus('No active tab found', 1500); return; } const tab = tabs[0]; if (!tab.url || tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('edge://')) { setButtonLoading(false); showStatus('Cannot explain internal pages', 1500); return; } chrome.scripting.executeScript({ target: { tabId: tab.id }, func: () => { window.dispatchEvent(new CustomEvent('explain-page-request')); return true; } }).then((results) => { setButtonLoading(false); showStatus('Opened explanation', 1200); setTimeout(() => { try { window.close(); } catch(e){ } }, 350); }).catch((err) => { setButtonLoading(false); console.error('explainCurrentPage error', err); showStatus('Error explaining page', 1500); }); }); }
+function onLevelChange(newLevel) { saveSettings(); chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => { if (!tabs || !tabs.length) return; const tab = tabs[0]; if (!tab.id) return; chrome.scripting.executeScript({ target: { tabId: tab.id }, func: (lvl) => { window.dispatchEvent(new CustomEvent('explain-page-level-changed', { detail: lvl })); return true; }, args: [newLevel] }).catch(err => console.warn('level change notify failed', err)); }); }
+if (levelSelect) { levelSelect.addEventListener('change', (e) => onLevelChange(e.target.value)); }
+if (autoDetectCheckbox) { autoDetectCheckbox.addEventListener('change', saveSettings); }
+if (explainBtn) { explainBtn.addEventListener('click', explainCurrentPage); }
+document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && document.activeElement === explainBtn) explainCurrentPage(); });
+function startStatsUpdater() { setInterval(() => { if (typeof chrome === 'undefined' || !chrome.storage) return; chrome.storage.sync.get(['pagesExplained','totalWordsSimplified','lastUsed'], (res) => { if (!res) return; if (pagesCount && res.pagesExplained !== undefined) pagesCount.textContent = res.pagesExplained; if (wordsCount && res.totalWordsSimplified !== undefined) wordsCount.textContent = res.totalWordsSimplified; if (res.lastUsed && lastUsedDiv) lastUsedDiv.textContent = `Last: ${new Date(res.lastUsed).toLocaleString()}`; }); }, 2000); }
+document.addEventListener('DOMContentLoaded', () => { loadSettings(); startStatsUpdater(); });

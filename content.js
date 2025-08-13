@@ -1,5 +1,4 @@
-\
-/* content.js — Explain This Page — Full fixes (summarize + simplify + UX fixes) v2.2 */
+/* content.js — Explain This Page — Full fixes (summarize + simplify + UX fixes) v2.2.1 */
 (function () {
   'use strict';
 
@@ -170,6 +169,8 @@
             const span = document.createElement('span');
             span.textContent = matched;
             span.className = 'explain-tooltip';
+            // set data-tooltip for our custom CSS tooltip; also keep title for accessibility fallback
+            span.setAttribute('data-tooltip', jargonDictionary[matched] || jargonDictionary[matched.toLowerCase()] || '');
             span.title = jargonDictionary[matched] || jargonDictionary[matched.toLowerCase()] || '';
             p.appendChild(span);
             stats.jargonExplained++;
@@ -214,16 +215,19 @@
       const overlay = document.createElement('div');
       overlay.id = 'explain-page-overlay';
       overlay.innerHTML = `
-        <div class="explain-overlay-content">
+        <div class="explain-overlay-content card">
           <div class="explain-header">
-            <h2>📖 Explain This Page</h2>
-            <div class="explain-controls">
+            <div class="left">
+              <h2>📖 Explain This Page</h2>
+              <div class="meta">Simplified reading, quick definitions</div>
+            </div>
+            <div class="right">
               <select id="explain-level-selector">
                 <option value="elementary">Elementary</option>
                 <option value="middle">Middle School</option>
                 <option value="high">High School</option>
               </select>
-              <button id="explain-close-btn" aria-label="Close overlay">✖ Close</button>
+              <button id="explain-close-btn" aria-label="Close overlay" class="close-btn">✖</button>
             </div>
           </div>
           <div class="explain-content-container">
@@ -314,8 +318,6 @@
     } catch (e) { console.error('dispatchExplainWithSnapshot error', e); }
   }
 
-  function dispatchExplainWithSnapshotWrapper() { dispatchExplainWithSnapshot(currentLevel); }
-
   window.addEventListener('explain-page-request', () => {
     try { dispatchExplainWithSnapshot(); } catch(e) { console.error(e); }
   });
@@ -381,9 +383,25 @@
     style.id = 'explain-page-fade-css';
     style.textContent = `
       #explain-page-banner.fade-out { opacity: 0 !important; transform: translateY(8px); transition: opacity .36s ease, transform .36s ease; }
+      /* tooltip card */
+      .explain-tooltip[data-tooltip]:hover::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        background: #111827;
+        color: #fff;
+        padding: 8px 10px;
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(2,6,23,0.4);
+        white-space: pre-wrap;
+        z-index: 2147483050;
+        max-width: 340px;
+        left: 0;
+        transform: translateY(-120%);
+      }
+      .explain-tooltip { position: relative; display: inline-block; }
     `;
     document.head.appendChild(style);
   })();
 
-  console.log('Explain This Page content script v2.2 loaded (summarizer + fixes)');
+  console.log('Explain This Page content script v2.2.1 loaded (summarizer + fixes)');
 })();
