@@ -1,310 +1,100 @@
-/* Enhanced styles for Explain This Page extension v2.0 */
+/* Overlay and tooltip styles for Explain This Page */
 
-/* Banner styling */
-#explain-page-banner {
-  position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  color: white !important;
-  border-radius: 16px !important;
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4) !important;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;
-  font-size: 14px !important;
-  z-index: 999998 !important;
-  cursor: pointer !important;
-  user-select: none !important;
-  transition: all 0.3s ease !important;
-  max-width: 280px !important;
-  animation: explainBannerSlideIn 0.5s ease-out !important;
+#explain-page-banner{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:linear-gradient(180deg,#0ea5e9,#0366d6);
+  color:white;
+  padding:10px 14px;
+  border-radius:12px;
+  box-shadow: 0 8px 28px rgba(2,6,23,0.12);
+  z-index:2147483000;
+  cursor:pointer;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  transform:translateY(0);
+  transition:opacity .3s ease, transform .2s ease;
+  opacity:0.95;
+  font-family:system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+#explain-page-banner .explain-banner-icon{ font-size:20px; }
+#explain-page-banner .explain-banner-text{ font-size:13px; line-height:1.1; font-weight:600; }
+#explain-page-banner .explain-banner-btn{ background:rgba(255,255,255,0.12); color:white; border:0; padding:6px 8px; border-radius:8px; cursor:pointer; font-weight:600; }
+
+#explain-page-overlay{
+  position:fixed;
+  inset:12px;
+  z-index:2147483001;
+  background:rgba(10,11,13,0.4);
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  overflow:auto;
+  padding:18px;
+  -webkit-overflow-scrolling:touch;
 }
 
-#explain-page-banner:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5) !important;
+.explain-overlay-content{
+  width:min(1200px, calc(100% - 48px));
+  max-height:calc(100% - 48px);
+  background:white;
+  border-radius:10px;
+  box-shadow: 0 20px 50px rgba(2,6,23,0.25);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
 }
 
-.explain-banner-content {
-  display: flex !important;
-  align-items: center !important;
-  padding: 12px 16px !important;
-  gap: 12px !important;
+.explain-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px 16px;
+  border-bottom:1px solid #eef2f6;
+}
+.explain-header h2{ margin:0; font-size:16px; }
+.explain-controls{ display:flex; gap:10px; align-items:center; }
+
+.explain-content-container{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  padding:14px;
+  overflow:auto;
 }
 
-.explain-banner-icon {
-  font-size: 20px !important;
-  line-height: 1 !important;
+.explain-original-content, .explain-simplified-content{
+  background:#fafbfe;
+  border-radius:8px;
+  padding:10px;
+  min-height:280px;
+  overflow:auto;
 }
 
-.explain-banner-text {
-  flex-grow: 1 !important;
-  line-height: 1.3 !important;
+.explain-content-scroll{
+  max-height:480px;
+  overflow:auto;
+  padding:8px;
+  background:white;
+  border-radius:6px;
+  border:1px solid #eef2f6;
 }
 
-.explain-banner-btn {
-  background: rgba(255, 255, 255, 0.2) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  border-radius: 8px !important;
-  color: white !important;
-  padding: 6px 12px !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-  white-space: nowrap !important;
+/* tooltip inline style for jargon - simple underline with native title */
+.explain-tooltip{
+  border-bottom:1px dotted #cbd5e1;
+  cursor:help;
+  padding:0 2px;
+  border-radius:3px;
 }
 
-.explain-banner-btn:hover {
-  background: rgba(255, 255, 255, 0.3) !important;
-  border-color: rgba(255, 255, 255, 0.4) !important;
-}
+/* small loading indicator */
+.explain-loading{ color:#6b7280; padding:6px; }
 
-/* Overlay styling */
-#explain-page-overlay {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100vw !important;
-  height: 100vh !important;
-  background: rgba(0, 0, 0, 0.85) !important;
-  z-index: 999999 !important;
-  overflow: hidden !important;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;
-  animation: explainOverlayFadeIn 0.3s ease-out !important;
-}
-
-.explain-overlay-content {
-  background: white !important;
-  border-radius: 16px !important;
-  margin: 20px !important;
-  height: calc(100vh - 40px) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  overflow: hidden !important;
-  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3) !important;
-}
-
-.explain-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  color: white !important;
-  padding: 20px 24px !important;
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  border-radius: 16px 16px 0 0 !important;
-}
-
-.explain-header h2 {
-  margin: 0 !important;
-  font-size: 24px !important;
-  font-weight: 600 !important;
-}
-
-.explain-controls {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-}
-
-#explain-level-selector {
-  background: rgba(255, 255, 255, 0.2) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  border-radius: 8px !important;
-  color: white !important;
-  padding: 8px 12px !important;
-  font-size: 14px !important;
-  cursor: pointer !important;
-}
-
-#explain-level-selector option {
-  background: #667eea !important;
-  color: white !important;
-}
-
-#explain-close-btn {
-  background: rgba(255, 255, 255, 0.2) !important;
-  border: 1px solid rgba(255, 255, 255, 0.3) !important;
-  border-radius: 8px !important;
-  color: white !important;
-  padding: 8px 16px !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-}
-
-#explain-close-btn:hover {
-  background: rgba(255, 255, 255, 0.3) !important;
-}
-
-.explain-content-container {
-  display: flex !important;
-  flex: 1 !important;
-  min-height: 0 !important;
-}
-
-.explain-original-content,
-.explain-simplified-content {
-  flex: 1 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  min-height: 0 !important;
-}
-
-.explain-original-content {
-  border-right: 1px solid #e1e5e9 !important;
-}
-
-.explain-original-content h3,
-.explain-simplified-content h3 {
-  margin: 0 !important;
-  padding: 16px 20px !important;
-  background: #f8f9fa !important;
-  border-bottom: 1px solid #e1e5e9 !important;
-  font-size: 16px !important;
-  font-weight: 600 !important;
-  color: #333 !important;
-}
-
-.explain-content-scroll {
-  flex: 1 !important;
-  overflow-y: auto !important;
-  padding: 20px !important;
-  line-height: 1.6 !important;
-  color: #333 !important;
-}
-
-.explain-simplified-content .explain-content-scroll {
-  background: #f8fafe !important;
-}
-
-.explain-loading {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  height: 100% !important;
-  font-size: 16px !important;
-  color: #667eea !important;
-  font-weight: 500 !important;
-}
-
-.explain-stats {
-  background: #f8f9fa !important;
-  border-top: 1px solid #e1e5e9 !important;
-  padding: 16px 24px !important;
-  display: flex !important;
-  justify-content: space-around !important;
-  font-size: 14px !important;
-  color: #666 !important;
-}
-
-.explain-stats strong {
-  color: #667eea !important;
-  font-weight: 600 !important;
-}
-
-/* Tooltip styling */
-.explain-tooltip {
-  border-bottom: 2px dotted #667eea !important;
-  cursor: help !important;
-  position: relative !important;
-  color: #667eea !important;
-  font-weight: 500 !important;
-}
-
-.explain-tooltip:hover::after {
-  content: attr(title) !important;
-  position: absolute !important;
-  bottom: 125% !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  background: #333 !important;
-  color: white !important;
-  padding: 8px 12px !important;
-  border-radius: 6px !important;
-  white-space: nowrap !important;
-  z-index: 1000000 !important;
-  font-size: 13px !important;
-  font-weight: normal !important;
-  opacity: 0.95 !important;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
-  max-width: 300px !important;
-  white-space: normal !important;
-}
-
-.explain-tooltip:hover::before {
-  content: '' !important;
-  position: absolute !important;
-  bottom: 115% !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  border: 5px solid transparent !important;
-  border-top-color: #333 !important;
-  z-index: 1000001 !important;
-}
-
-/* Animations */
-@keyframes explainBannerSlideIn {
-  from {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes explainOverlayFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  #explain-page-banner {
-    bottom: 10px !important;
-    right: 10px !important;
-    max-width: 250px !important;
-  }
-
-  .explain-overlay-content {
-    margin: 10px !important;
-    height: calc(100vh - 20px) !important;
-  }
-
-  .explain-content-container {
-    flex-direction: column !important;
-  }
-
-  .explain-original-content {
-    border-right: none !important;
-    border-bottom: 1px solid #e1e5e9 !important;
-    max-height: 40% !important;
-  }
-
-  .explain-header {
-    padding: 16px 20px !important;
-  }
-
-  .explain-header h2 {
-    font-size: 20px !important;
-  }
-
-  .explain-controls {
-    flex-direction: column !important;
-    gap: 8px !important;
-  }
-}
-
-/* Ensure tooltips work on mobile */
-@media (hover: none) {
-  .explain-tooltip:active::after,
-  .explain-tooltip:active::before {
-    display: block !important;
-  }
+/* small responsive */
+@media (max-width:800px){
+  .explain-content-container{ grid-template-columns:1fr; }
+  .explain-overlay-content{ width:calc(100% - 36px); }
 }

@@ -1,13 +1,16 @@
 {
   "manifest_version": 3,
   "name": "Explain This Page",
-  "version": "2.0",
+  "version": "2.1",
   "description": "Explains complex webpages in simpler language for students.",
   "permissions": [
     "scripting",
     "activeTab",
     "storage",
     "contextMenus"
+  ],
+  "host_permissions": [
+    "<all_urls>"
   ],
   "background": {
     "service_worker": "background.js"

@@ -1,76 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Explain This Page</title>
-  <link rel="stylesheet" href="popup.css"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Explain This Page — Popup</title>
+  <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
-  <div class="popup-container">
-    <div class="popup-header">
-      <h1>📖 Explain This Page</h1>
-      <div class="version">v2.0</div>
-    </div>
+  <div id="popup-root">
+    <header>
+      <h1>Explain This Page</h1>
+      <small>Summarize & simplify any webpage</small>
+    </header>
 
-    <div class="popup-content">
-      <div class="setting-group">
-        <label for="level-select">Reading Level:</label>
-        <select id="level-select">
-          <option value="elementary">🌟 Elementary</option>
-          <option value="middle" selected>📚 Middle School</option>
-          <option value="high">🎓 High School</option>
-        </select>
-        <div class="setting-description">
-          Choose how simple the explanations should be
-        </div>
-      </div>
+    <section id="controls">
+      <label for="level-select">Reading level</label>
+      <select id="level-select" aria-label="Reading level">
+        <option value="elementary">Elementary</option>
+        <option value="middle" selected>Middle School</option>
+        <option value="high">High School</option>
+      </select>
 
-      <div class="setting-group">
-        <label class="checkbox-label">
-          <input type="checkbox" id="auto-detect" checked>
-          <span class="checkbox-custom"></span>
-          Auto-detect complex pages
-        </label>
-        <div class="setting-description">
-          Automatically show help banner on difficult pages
-        </div>
-      </div>
+      <label class="checkbox-inline">
+        <input type="checkbox" id="auto-detect" />
+        Auto-detect complex pages
+      </label>
 
-      <button id="explain-btn" class="primary-btn">
-        <span class="btn-icon">🔍</span>
-        Explain Current Page
+      <button id="explain-btn" class="primary" aria-label="Explain current page">
+        <span class="btn-icon">🔍</span> Explain Current Page
       </button>
 
-      <div class="stats-section">
-        <h3>📊 Usage Statistics</h3>
-        <div class="stats-grid">
-          <div class="stat-item">
-            <span class="stat-number" id="pages-count">0</span>
-            <span class="stat-label">Pages Explained</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" id="words-count">0</span>
-            <span class="stat-label">Words Simplified</span>
-          </div>
-        </div>
-        <div class="last-used" id="last-used"></div>
-      </div>
+      <div id="status" role="status" aria-live="polite"></div>
+    </section>
 
-      <div class="help-section">
-        <details>
-          <summary>💡 How to Use</summary>
-          <div class="help-content">
-            <p><strong>Automatic Mode:</strong> Visit complex pages and look for the blue banner</p>
-            <p><strong>Manual Mode:</strong> Click "Explain Current Page" button above</p>
-            <p><strong>Text Selection:</strong> Right-click selected text for quick explanations</p>
-          </div>
-        </details>
-      </div>
-    </div>
+    <section id="stats">
+      <div><strong>Pages explained</strong><div id="pages-count">0</div></div>
+      <div><strong>Words simplified</strong><div id="words-count">0</div></div>
+      <div id="last-used"></div>
+    </section>
 
-    <div id="status" class="status-message"></div>
+    <footer>
+      <small>v2.1 • <a href="#" id="help-link">Help</a></small>
+    </footer>
   </div>
+
   <script src="popup.js"></script>
 </body>
 </html>
