@@ -1,5 +1,6 @@
-/* Overlay and tooltip styles for Explain This Page */
+/* content.css — overlay, banner, and tooltip styling (v2.2) */
 
+/* Banner */
 #explain-page-banner{
   position:fixed;
   right:20px;
@@ -15,14 +16,15 @@
   gap:10px;
   align-items:center;
   transform:translateY(0);
-  transition:opacity .3s ease, transform .2s ease;
+  transition: opacity .36s ease, transform .36s ease;
   opacity:0.95;
   font-family:system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 }
 #explain-page-banner .explain-banner-icon{ font-size:20px; }
 #explain-page-banner .explain-banner-text{ font-size:13px; line-height:1.1; font-weight:600; }
-#explain-page-banner .explain-banner-btn{ background:rgba(255,255,255,0.12); color:white; border:0; padding:6px 8px; border-radius:8px; cursor:pointer; font-weight:600; }
+#explain-page-banner.fade-out { opacity: 0; transform: translateY(8px); }
 
+/* Overlay */
 #explain-page-overlay{
   position:fixed;
   inset:12px;
@@ -35,7 +37,6 @@
   padding:18px;
   -webkit-overflow-scrolling:touch;
 }
-
 .explain-overlay-content{
   width:min(1200px, calc(100% - 48px));
   max-height:calc(100% - 48px);
@@ -46,7 +47,6 @@
   display:flex;
   flex-direction:column;
 }
-
 .explain-header{
   display:flex;
   align-items:center;
@@ -57,6 +57,7 @@
 .explain-header h2{ margin:0; font-size:16px; }
 .explain-controls{ display:flex; gap:10px; align-items:center; }
 
+/* Content panes */
 .explain-content-container{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -64,7 +65,6 @@
   padding:14px;
   overflow:auto;
 }
-
 .explain-original-content, .explain-simplified-content{
   background:#fafbfe;
   border-radius:8px;
@@ -72,7 +72,6 @@
   min-height:280px;
   overflow:auto;
 }
-
 .explain-content-scroll{
   max-height:480px;
   overflow:auto;
@@ -90,11 +89,6 @@
   border-radius:3px;
 }
 
-/* small loading indicator */
+/* other small things */
 .explain-loading{ color:#6b7280; padding:6px; }
-
-/* small responsive */
-@media (max-width:800px){
-  .explain-content-container{ grid-template-columns:1fr; }
-  .explain-overlay-content{ width:calc(100% - 36px); }
-}
+@media (max-width:800px){ .explain-content-container{ grid-template-columns:1fr; } .explain-overlay-content{ width:calc(100% - 36px); } }

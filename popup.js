@@ -1,4 +1,4 @@
-// Popup script for Explain This Page extension v2.1
+// popup.js — Explain This Page — fixes: immediate close and robust dispatch (v2.2)
 
 const levelSelect = document.getElementById('level-select');
 const autoDetectCheckbox = document.getElementById('auto-detect');
@@ -8,138 +8,136 @@ const pagesCount = document.getElementById('pages-count');
 const wordsCount = document.getElementById('words-count');
 const lastUsedDiv = document.getElementById('last-used');
 
-function showStatus(message, type = 'info', duration = 3000) {
-  statusDiv.textContent = message;
-  statusDiv.className = `status-message ${type}`;
-  if (duration > 0) setTimeout(() => { statusDiv.textContent = ''; statusDiv.className = 'status-message'; }, duration);
-}
-
-function formatLastUsed(timestamp) {
-  if (!timestamp) return '';
-  const date = new Date(timestamp);
-  const now = new Date();
-  const diffTime = Math.abs(now - date);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  if (diffDays === 1) return 'Last used: Yesterday';
-  if (diffDays < 7) return `Last used: ${diffDays} days ago`;
-  return `Last used: ${date.toLocaleDateString()}`;
+function showStatus(message, duration = 2000) {
+  if (!statusDiv) return;
+  statusDiv.textContent = message || '';
+  if (duration > 0) setTimeout(()=> { if (statusDiv) statusDiv.textContent = ''; }, duration);
 }
 
 function loadSettings() {
   try {
+    if (typeof chrome === 'undefined' || !chrome.storage) return;
     chrome.storage.sync.get(['explainPageLevel', 'autoDetect', 'pagesExplained', 'totalWordsSimplified', 'lastUsed'], (result) => {
-      if (result.explainPageLevel) levelSelect.value = result.explainPageLevel;
-      if (result.autoDetect !== undefined) autoDetectCheckbox.checked = result.autoDetect;
-      pagesCount.textContent = result.pagesExplained || 0;
-      wordsCount.textContent = result.totalWordsSimplified || 0;
-      if (result.lastUsed) lastUsedDiv.textContent = formatLastUsed(result.lastUsed);
+      if (!result) return;
+      if (result.explainPageLevel && levelSelect) levelSelect.value = result.explainPageLevel;
+      if (result.autoDetect !== undefined && autoDetectCheckbox) autoDetectCheckbox.checked = result.autoDetect;
+      if (pagesCount) pagesCount.textContent = result.pagesExplained || 0;
+      if (wordsCount) wordsCount.textContent = result.totalWordsSimplified || 0;
+      if (result.lastUsed && lastUsedDiv) {
+        const d = new Date(result.lastUsed);
+        lastUsedDiv.textContent = `Last used: ${d.toLocaleString()}`;
+      }
     });
-  } catch (err) {
-    console.error('Error loading settings:', err);
-    showStatus('Error loading settings', 'error');
+  } catch (e) {
+    console.error('loadSettings error', e);
   }
 }
 
 function saveSettings() {
   try {
+    if (typeof chrome === 'undefined' || !chrome.storage) return;
     const settings = { explainPageLevel: levelSelect.value, autoDetect: autoDetectCheckbox.checked };
     chrome.storage.sync.set(settings, () => {
-      if (chrome.runtime.lastError) {
-        showStatus('Error saving settings', 'error');
+      if (chrome.runtime && chrome.runtime.lastError) {
+        showStatus('Error saving settings', 2000);
       } else {
-        showStatus('✅ Settings saved!', 'success', 1200);
+        showStatus('Settings saved', 1200);
       }
     });
-  } catch (err) {
-    console.error('Error saving settings:', err);
-    showStatus('Error saving settings', 'error');
+  } catch (e) {
+    console.error('saveSettings error', e);
   }
 }
 
-function setButtonLoading(loading) {
-  if (loading) {
+function setButtonLoading(isLoading) {
+  if (!explainBtn) return;
+  if (isLoading) {
     explainBtn.classList.add('loading');
-    explainBtn.innerHTML = "<span class=\"btn-icon\">🔄</span>Explaining...";
+    explainBtn.innerHTML = '<span class="btn-icon">🔄</span> Explaining...';
   } else {
     explainBtn.classList.remove('loading');
-    explainBtn.innerHTML = "<span class=\"btn-icon\">🔍</span>Explain Current Page";
+    explainBtn.innerHTML = '<span class="btn-icon">🔍</span> Explain Current Page';
   }
 }
 
 function explainCurrentPage() {
   setButtonLoading(true);
-  showStatus('🔄 Analyzing page...', 'info', 0);
+  showStatus('Analyzing page...', 0);
 
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (!tabs.length || !tabs[0]?.id) {
+    if (!tabs || !tabs.length) {
       setButtonLoading(false);
-      showStatus('❌ No active tab found', 'error');
+      showStatus('No active tab found', 1500);
       return;
     }
     const tab = tabs[0];
     if (!tab.url || tab.url.startsWith('chrome://') || tab.url.startsWith('chrome-extension://') || tab.url.startsWith('edge://')) {
       setButtonLoading(false);
-      showStatus('❌ Cannot explain browser pages', 'error');
+      showStatus('Cannot explain internal pages', 1500);
       return;
     }
 
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
-      func: () => { window.dispatchEvent(new CustomEvent('explain-page-request')); return true; }
+      func: () => {
+        window.dispatchEvent(new CustomEvent('explain-page-request'));
+        return true;
+      }
     }).then((results) => {
       setButtonLoading(false);
-      if (results && results[0] && results[0].result) {
-        showStatus('✅ Page explanation opened!', 'success');
-        setTimeout(() => window.close(), 900);
-      } else {
-        showStatus('⚠️ Page explained (if complex)', 'info');
-        setTimeout(() => window.close(), 1500);
-      }
-    }).catch(error => {
+      showStatus('Opened explanation', 1200);
+      setTimeout(() => { try { window.close(); } catch(e){ } }, 350);
+    }).catch((err) => {
       setButtonLoading(false);
-      console.error('Error triggering explanation:', error);
-      showStatus('❌ Error explaining page', 'error');
+      console.error('explainCurrentPage error', err);
+      showStatus('Error explaining page', 1500);
     });
   });
 }
 
-levelSelect.addEventListener('change', () => {
+function onLevelChange(newLevel) {
   saveSettings();
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    if (!tabs.length || !tabs[0]?.id) return;
+    if (!tabs || !tabs.length) return;
+    const tab = tabs[0];
+    if (!tab.id) return;
     chrome.scripting.executeScript({
-      target: { tabId: tabs[0].id },
-      func: (newLevel) => {
-        window.currentLevel = newLevel;
-        window.dispatchEvent(new CustomEvent('explain-page-level-changed', { detail: newLevel }));
+      target: { tabId: tab.id },
+      func: (lvl) => {
+        window.dispatchEvent(new CustomEvent('explain-page-level-changed', { detail: lvl }));
+        return true;
       },
-      args: [levelSelect.value]
-    }).catch(() => {});
+      args: [newLevel]
+    }).catch(err => console.warn('level change notify failed', err));
   });
-});
+}
 
-autoDetectCheckbox.addEventListener('change', saveSettings);
-explainBtn.addEventListener('click', explainCurrentPage);
-
+if (levelSelect) {
+  levelSelect.addEventListener('change', (e) => onLevelChange(e.target.value));
+}
+if (autoDetectCheckbox) {
+  autoDetectCheckbox.addEventListener('change', saveSettings);
+}
+if (explainBtn) {
+  explainBtn.addEventListener('click', explainCurrentPage);
+}
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' && document.activeElement === explainBtn) explainCurrentPage();
-});
+}
 
-// Update stats periodically in the popup
 function startStatsUpdater() {
   setInterval(() => {
-    chrome.storage.sync.get(['pagesExplained', 'totalWordsSimplified', 'lastUsed'], (result) => {
-      if (result.pagesExplained !== undefined) pagesCount.textContent = result.pagesExplained;
-      if (result.totalWordsSimplified !== undefined) wordsCount.textContent = result.totalWordsSimplified;
-      if (result.lastUsed) lastUsedDiv.textContent = formatLastUsed(result.lastUsed);
+    if (typeof chrome === 'undefined' || !chrome.storage) return;
+    chrome.storage.sync.get(['pagesExplained','totalWordsSimplified','lastUsed'], (res) => {
+      if (!res) return;
+      if (pagesCount && res.pagesExplained !== undefined) pagesCount.textContent = res.pagesExplained;
+      if (wordsCount && res.totalWordsSimplified !== undefined) wordsCount.textContent = res.totalWordsSimplified;
+      if (res.lastUsed && lastUsedDiv) lastUsedDiv.textContent = `Last: ${new Date(res.lastUsed).toLocaleString()}`;
     });
   }, 2000);
 }
 
-// Initialize
 document.addEventListener('DOMContentLoaded', () => {
   loadSettings();
   startStatsUpdater();
 });
-
-console.log('Explain This Page popup loaded (v2.1)');
