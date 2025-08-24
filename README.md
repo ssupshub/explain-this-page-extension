@@ -1,283 +1,315 @@
-# 📖 Explain This Page - Chrome Extension v2.0
+# 🧠 Explain This Page - AI Content Simplifier v3.0
 
-A powerful Chrome extension that simplifies complex web pages for students and non-experts by explaining jargon, breaking down sentences, and providing different reading levels.
+A powerful Chrome extension that transforms complex webpages into easy-to-understand content with AI-powered explanations, smart summaries, and interactive tooltips.
 
-## 🚀 Features
+## ✨ Features
 
-### ✅ **Text Simplification Engine**
-- **35+ Jargon Dictionary**: Technical, academic, business, and medical terms with clear definitions
-- **30+ Word Simplifications**: Complex words replaced with simpler alternatives (utilize→use, demonstrate→show)
-- **Smart Sentence Breaking**: Long sentences split at conjunctions and commas for better readability
-- **Three Reading Levels**: Elementary, Middle School, and High School complexity settings
+### 🔥 **Enhanced AI Simplification**
+- **60+ Jargon Dictionary**: Comprehensive technical, academic, business, and medical terms with clear definitions
+- **Advanced Word Replacement**: 40+ complex words automatically simplified (utilize→use, demonstrate→show)
+- **Smart Sentence Breaking**: Long sentences intelligently split for better readability
+- **Three Reading Levels**: Elementary, Middle School, and High School complexity with detailed configurations
 
-### ✅ **Smart Detection System**
-- **Automatic Complexity Detection**: Analyzes pages for long words, jargon density, and sentence length
-- **Floating Help Banner**: Appears automatically on complex pages
-- **Manual Override**: Use extension popup to explain any page
-- **Context Menu**: Right-click selected text for instant explanations
+### 🎯 **Intelligent Detection System**
+- **Advanced Complexity Analysis**: Multi-factor analysis including word length, jargon density, and sentence structure
+- **Beautiful Banner Notifications**: Modern animated banners that appear on complex pages
+- **Manual Override**: Force explanation of any page through the popup or context menu
+- **Context Menu Integration**: Right-click any selected text for instant explanations
 
-### ✅ **Professional Interface**
-- **Dual-View Overlay**: Side-by-side comparison of original and simplified content
-- **Interactive Tooltips**: Hover over technical terms for definitions
-- **Modern UI Design**: Gradient backgrounds, smooth animations, glassmorphism effects
-- **Responsive Layout**: Works on desktop and mobile browsers
-- **Accessibility Features**: High contrast, keyboard navigation, screen reader support
+### 🎨 **Modern Interface Design**
+- **Sleek Overlay**: Side-by-side comparison with glassmorphism effects and smooth animations
+- **Interactive Tooltips**: Hover over technical terms for instant definitions with beautiful styling
+- **Responsive Layout**: Perfect on desktop and mobile browsers with adaptive design
+- **Dark Mode Support**: Automatically adapts to system preferences
 
-### ✅ **Advanced Features**
-- **Usage Statistics**: Track pages explained and words simplified
-- **Settings Persistence**: Preferences saved across browser sessions
-- **Performance Optimized**: Minimal memory usage, efficient text processing
-- **Privacy Focused**: No data collection, all processing happens locally
+### 🚀 **Advanced Features**
+- **Real-time Statistics**: Track pages explained and words simplified with animated counters
+- **Persistent Settings**: All preferences saved across browser sessions
+- **Performance Optimized**: Efficient algorithms with minimal memory usage
+- **Privacy Focused**: 100% local processing, no data collection or external requests
 - **Chrome Manifest V3**: Latest security standards and API compliance
 
-## 🛠️ Installation
+## 📥 Installation
 
-### Method 1: Load Unpacked Extension (Recommended)
-1. **Download**: Extract this extension package to a folder
-2. **Add Icons**: Place your PNG icon files in the `icons/` folder:
-   - `icon16.png` (16×16 pixels)
-   - `icon48.png` (48×48 pixels)
-   - `icon128.png` (128×128 pixels)
-3. **Open Chrome Extensions**: Navigate to `chrome://extensions/`
-4. **Enable Developer Mode**: Toggle the switch in the top-right corner
-5. **Load Extension**: Click "Load unpacked" and select your extension folder
-6. **Verify**: Look for the extension icon in your Chrome toolbar
+### Method 1: Load as Unpacked Extension (Recommended for Development)
+
+1. **Download the Extension**
+   ```bash
+   git clone <repository-url>
+   cd explain-this-page-extension
+   ```
+
+2. **Open Chrome Extensions Page**
+   - Navigate to `chrome://extensions/`
+   - Enable "Developer mode" in the top-right corner
+
+3. **Load the Extension**
+   - Click "Load unpacked"
+   - Select the extension folder
+   - The extension should appear in your toolbar
+
+4. **Verify Installation**
+   - Look for the brain icon (🧠) in your Chrome toolbar
+   - Right-click on any webpage to see context menu options
 
 ### Method 2: Package for Distribution
-1. Follow steps 1-2 above
-2. Click "Pack extension" in Chrome extensions page
-3. Select your extension folder
-4. Generate .crx file for distribution
 
-## 📖 How to Use
+1. Complete steps 1-2 above
+2. Click "Pack extension" on the Chrome extensions page
+3. Select your extension folder to generate a `.crx` file
 
-### 🔄 **Automatic Mode**
-1. **Browse normally** - Visit any website
-2. **Look for banner** - Blue notification appears on complex pages
-3. **Click to explain** - Banner opens simplification overlay
-4. **Compare content** - Original and simplified versions side-by-side
-5. **Hover for definitions** - Technical terms show tooltips
+## 🎮 How to Use
+
+### 🔄 **Automatic Mode (Recommended)**
+1. **Browse Normally** - Visit any complex website (try Wikipedia, academic papers, or technical documentation)
+2. **Watch for Banner** - A beautiful notification appears automatically on complex content
+3. **Click to Explain** - Banner opens the AI-powered simplification overlay
+4. **Explore Content** - Compare original and simplified versions side-by-side
+5. **Hover for Definitions** - Technical terms show instant explanations
 
 ### 🎯 **Manual Mode**
-1. **Click extension icon** - Open popup interface
-2. **Select reading level** - Choose Elementary, Middle School, or High School
+1. **Click Extension Icon** - Open the modern popup interface
+2. **Select Reading Level** - Choose Elementary, Middle School, or High School
 3. **Click "Explain Current Page"** - Force explanation of any page
-4. **Adjust settings** - Toggle auto-detection on/off
+4. **Adjust Settings** - Toggle auto-detection and customize preferences
 
 ### 📝 **Text Selection Mode**
-1. **Select any text** - Highlight text on any webpage
-2. **Right-click** - Open context menu
+1. **Select Any Text** - Highlight text on any webpage
+2. **Right-Click** - Open context menu
 3. **Choose "Explain selected text"** - Get instant explanation popup
 
-## ⚙️ Settings & Configuration
+## ⚙️ Configuration
 
-### Reading Levels
-- **🌟 Elementary**: Very simple words, short sentences (10 words max)
-- **📚 Middle School**: Moderate complexity, medium sentences (15 words max)
-- **🎓 High School**: Standard complexity, longer sentences (20 words max)
+### Reading Levels Explained
 
-### Auto-Detection Options
-- **Enabled**: Automatically scan pages and show banner on complex content
-- **Disabled**: Only explain pages manually via popup or context menu
+| Level | Description | Max Sentence Length | Summary Length |
+|-------|-------------|-------------------|----------------|
+| 🌟 **Elementary** | Very simple words, short sentences | 10 words | 2 sentences |
+| 📚 **Middle School** | Moderate complexity, clear explanations | 15 words | 3 sentences |
+| 🎓 **High School** | Standard complexity, detailed information | 22 words | 4 sentences |
 
-### Privacy Settings
-- **Local Storage Only**: All settings stored locally in browser
-- **No Data Collection**: No information sent to external servers
-- **No Tracking**: No usage analytics or personal data gathering
+### Auto-Detection Settings
+- **Enabled**: Automatically analyzes pages and shows banner when complex content is detected
+- **Disabled**: Only explains pages manually via popup or context menu
+- **Smart Algorithm**: Uses multiple factors including word complexity, jargon density, and sentence length
+
+### Privacy & Data
+- **100% Local Processing**: All analysis happens on your device
+- **No Data Collection**: Zero tracking, analytics, or personal data gathering
+- **Secure Storage**: Settings stored locally in browser only
+- **No External Requests**: Complete offline functionality
 
 ## 🧪 Testing & Examples
 
 ### Recommended Test Sites
-- **Wikipedia**: Technical articles (Artificial Intelligence, Quantum Computing)
-- **Academic Papers**: Research journals and scientific publications
-- **Technical Documentation**: Developer docs, API references, software manuals
+- **Wikipedia**: [Artificial Intelligence](https://en.wikipedia.org/wiki/Artificial_intelligence), [Quantum Computing](https://en.wikipedia.org/wiki/Quantum_computing)
+- **Academic Papers**: Research journals, scientific publications, arXiv papers
+- **Technical Documentation**: GitHub repositories, API documentation, software manuals
 - **Legal Documents**: Terms of service, privacy policies, contracts
-- **Medical Information**: Health websites, medical research papers
-- **Business Content**: Corporate reports, financial documents
+- **Medical Information**: Health websites, medical research, clinical studies
+- **Business Content**: Corporate reports, financial documents, consulting papers
 
 ### Expected Results
-- **Complex pages**: Banner appears automatically within 1-2 seconds
-- **Jargon terms**: Highlighted in blue with hover tooltips
-- **Long sentences**: Broken into shorter, readable chunks
-- **Technical words**: Replaced with simpler alternatives
-- **Statistics**: Track improvements in comprehension
+- **Complex Pages**: Banner appears within 1-2 seconds automatically
+- **Technical Terms**: Highlighted with hover tooltips and definitions
+- **Long Sentences**: Broken into digestible, readable chunks
+- **Word Simplification**: Complex vocabulary replaced with simpler alternatives
+- **Progress Tracking**: Real-time statistics on improvements made
 
-## 🔧 Technical Details
+## 🛠️ Technical Details
 
-### File Structure
+### Architecture
 ```
 explain-this-page-extension/
-├── manifest.json          # Extension configuration
-├── background.js           # Service worker (context menus, messaging)
-├── content.js             # Main functionality (13.9 KB)
-├── content.css            # UI styling and animations
-├── popup.html             # Extension popup interface
-├── popup.js              # Popup functionality and settings
-├── popup.css             # Popup styling
-├── README.md             # This documentation file
-└── icons/                # Extension icons
-    ├── icon16.png        # 16×16 toolbar icon
-    ├── icon48.png        # 48×48 management icon
-    └── icon128.png       # 128×128 store icon
+├── manifest.json          # Extension configuration (Manifest V3)
+├── background.js           # Service worker with enhanced messaging
+├── content.js             # Main functionality (AI processing, UI)
+├── content.css            # Modern styling with animations
+├── popup.html             # Beautiful popup interface
+├── popup.js              # Enhanced popup functionality
+├── popup.css             # Modern popup styling
+└── icons/                # Extension icons (16px, 48px, 128px)
 ```
 
 ### Technology Stack
-- **JavaScript ES6+**: Modern syntax with arrow functions, async/await
-- **HTML5**: Semantic markup with ARIA accessibility
-- **CSS3**: Flexbox, Grid, CSS variables, animations
-- **Chrome APIs**: Storage, Scripting, Context Menus, Tabs
-- **Manifest V3**: Latest Chrome extension standards
+- **JavaScript ES2020+**: Modern syntax with classes, async/await, modules
+- **HTML5 Semantic**: Accessible markup with ARIA labels
+- **CSS3 Advanced**: Flexbox, Grid, CSS Custom Properties, animations
+- **Chrome APIs**: Storage, Scripting, Context Menus, Tabs (Manifest V3)
+- **Performance**: Web Workers compatibility, efficient algorithms
 
-### Performance Metrics
-- **Memory Usage**: ~2-5 MB typical, ~10 MB maximum
-- **Processing Speed**: <1 second for most pages
-- **Network Requests**: Zero (all processing local)
-- **Storage Used**: <1 KB for settings and statistics
+### Key Algorithms
+- **Complexity Analysis**: Multi-factor scoring system
+- **Text Summarization**: Frequency-based sentence ranking with position weighting
+- **Jargon Detection**: Comprehensive dictionary with contextual matching
+- **Word Simplification**: Rule-based replacement with context awareness
 
 ## 🐛 Troubleshooting
 
-### Common Issues
+### Common Issues & Solutions
 
 #### Extension Not Loading
-- **Check icons**: Ensure PNG files are in `icons/` folder with correct names
-- **Verify permissions**: Extension needs `scripting`, `activeTab`, `storage`, `contextMenus`
-- **Console errors**: Check `chrome://extensions/` → Details → Inspect views → background.html
+```bash
+# Check browser console for errors
+1. Open chrome://extensions/
+2. Find "Explain This Page"
+3. Click "Inspect views" → "background page"
+4. Check console for error messages
+```
+
+**Solutions:**
+- Ensure all files are present in the extension directory
+- Verify manifest.json is valid JSON
+- Check that icons folder contains PNG files
+- Reload the extension after making changes
 
 #### Banner Not Appearing
-- **Check auto-detect**: Ensure auto-detection is enabled in popup
-- **Page complexity**: Some pages may not meet complexity threshold
-- **Manual override**: Use popup "Explain Current Page" button
-- **Reload page**: Refresh and wait 2-3 seconds
+**Possible Causes:**
+- Auto-detection disabled in popup settings
+- Page content doesn't meet complexity threshold
+- Page has Content Security Policy restrictions
+- Extension not properly loaded
+
+**Solutions:**
+1. Check popup settings - ensure auto-detection is enabled
+2. Try manual explanation via popup button
+3. Test on different websites (Wikipedia, academic papers)
+4. Reload the page and wait 2-3 seconds
 
 #### Simplification Not Working
-- **Syntax error fixed**: v2.0 resolved illegal return statement
-- **Content scripts**: Ensure content.js loads properly
-- **Protected pages**: Cannot access chrome://, extension://, or file:// pages
-- **CSP restrictions**: Some sites block content script modifications
+**Debugging Steps:**
+1. Open browser developer tools (F12)
+2. Check console for error messages
+3. Verify content script is loaded
+4. Test on unrestricted pages (avoid chrome:// pages)
+
+**Common Fixes:**
+- Clear browser cache and reload extension
+- Disable other extensions that might conflict
+- Ensure page has sufficient text content (300+ characters)
+- Try different reading levels
 
 #### Popup Issues
-- **Settings not saving**: Check Chrome storage permissions
-- **Statistics not updating**: Refresh popup or restart browser
-- **UI problems**: Clear browser cache and reload extension
+**Solutions:**
+- Right-click extension icon → "Inspect popup"
+- Check for JavaScript errors in popup console
+- Reset extension by removing and reinstalling
+- Clear extension data via Chrome settings
 
-### Debug Mode
-1. **Open Developer Tools**: Right-click → Inspect
-2. **Check Console**: Look for "Explain This Page" log messages  
-3. **Network Tab**: Verify no external requests (should be empty)
-4. **Storage**: Check Local Storage for saved settings
+### Performance Optimization
+- Extension uses ~2-5 MB memory typically
+- Processing time: <1 second for most pages
+- No network requests = zero latency
+- Storage usage: <1 KB for settings and statistics
 
-### Reset Extension
-1. **Go to**: `chrome://extensions/`
-2. **Find extension**: "Explain This Page"
-3. **Click Details**: → Extension options
-4. **Clear data**: Remove and reload extension
-5. **Restart browser**: Complete reset
+## 🚀 Development
 
-## 🔄 Changelog & Version History
+### Setup Development Environment
+```bash
+# Clone repository
+git clone <repository-url>
+cd explain-this-page-extension
 
-See `CHANGELOG.md` for detailed version history and updates.
+# Load in Chrome
+1. Open chrome://extensions/
+2. Enable "Developer mode"
+3. Click "Load unpacked"
+4. Select extension directory
+```
 
-## 🛡️ Privacy & Security
+### Making Changes
+```bash
+# After editing files:
+1. Go to chrome://extensions/
+2. Click refresh icon on extension
+3. Test changes on a webpage
+```
 
-### Data Collection
-- **None**: Extension collects no personal information
-- **Local Only**: All settings stored in browser's local storage
-- **No Tracking**: No analytics, cookies, or external requests
-- **No Permissions**: Only requests minimum necessary permissions
+### Debugging
+```javascript
+// Enable debug mode in content.js
+const CONFIG = {
+  debug: true, // Set to true for console logs
+  // ... other config
+};
+```
 
-### Security Features
-- **Manifest V3**: Latest Chrome security standards
-- **Content Security Policy**: Prevents injection attacks
-- **Sandboxed Execution**: Isolated from other extensions
-- **No External URLs**: All code runs locally
+## 📊 Version History
 
-### Permissions Explained
-- **`scripting`**: Inject content scripts to modify page text
-- **`activeTab`**: Access current tab content when user clicks extension
-- **`storage`**: Save user preferences and statistics locally
-- **`contextMenus`**: Add right-click menu options for text selection
+### v3.0.0 (Current) - Major Upgrade
+**🚀 New Features:**
+- Complete UI/UX redesign with modern interface
+- Enhanced AI algorithms for better text simplification
+- Advanced complexity detection with multi-factor analysis
+- Beautiful animations and glassmorphism effects
+- Expanded jargon dictionary (60+ terms)
+- Improved word simplifications (40+ replacements)
+- Dark mode support
+- Mobile-responsive design
 
-## 🚀 Future Development
+**🔧 Technical Improvements:**
+- Rewritten in modern JavaScript with classes
+- Enhanced error handling and performance
+- Better accessibility with ARIA labels
+- Modular code structure for maintainability
+- Chrome Manifest V3 compliance
+- Advanced CSS with custom properties
 
-### Planned Features (v3.0)
-- **AI Integration**: Advanced language models for better simplification
-- **Multi-Language Support**: Translations and explanations in different languages
-- **Voice Features**: Text-to-speech for explanations
-- **Export Options**: Save simplified content as PDF or Word documents
-- **Collaborative Features**: Share simplified explanations with others
-- **Learning Mode**: Quiz mode to test comprehension
-- **Custom Dictionaries**: User-defined jargon and simplifications
+**🐛 Bug Fixes:**
+- Fixed text extraction on complex pages
+- Improved tooltip positioning and visibility
+- Better handling of edge cases
+- Enhanced browser compatibility
 
-### Technical Improvements
-- **Performance**: Faster text processing algorithms
-- **Accessibility**: Enhanced screen reader support
-- **Mobile**: Better responsive design for mobile browsers
-- **Offline**: Work without internet connection
-- **Sync**: Cloud synchronization of settings across devices
+### v2.2.1 (Previous)
+- Basic functionality with simple UI
+- Limited jargon dictionary
+- Basic complexity detection
+- Chrome Manifest V3 compatibility
 
 ## 🤝 Contributing
 
-We welcome contributions! Here's how to help:
+### Ways to Contribute
+1. **Bug Reports**: Found an issue? Report it with detailed steps
+2. **Feature Requests**: Suggest improvements or new capabilities
+3. **Code Contributions**: Submit pull requests with enhancements
+4. **Documentation**: Help improve guides and examples
+5. **Testing**: Try the extension on various websites and report feedback
 
-### Bug Reports
-1. **Check existing issues** before creating new ones
-2. **Provide details**: Browser version, extension version, specific pages
-3. **Steps to reproduce**: Detailed instructions
-4. **Console logs**: Include any error messages
+### Development Guidelines
+- Follow existing code style and patterns
+- Add comments for complex logic
+- Test thoroughly on multiple websites
+- Update documentation for new features
+- Ensure accessibility standards are met
 
-### Feature Requests
-1. **Search existing requests** to avoid duplicates
-2. **Describe use case**: Why is this feature needed?
-3. **Provide examples**: Specific scenarios where it would help
-4. **Consider implementation**: Technical feasibility
+## 📄 License
 
-### Code Contributions
-1. **Fork repository** and create feature branch
-2. **Follow coding standards**: Use existing code style
-3. **Test thoroughly**: Verify changes work across different sites
-4. **Document changes**: Update README and comments
-5. **Submit pull request**: Include description of changes
+MIT License - see LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- **Chrome Extension APIs**: Google Chrome development team
+- **Modern Web Design**: Inspiration from contemporary UI/UX trends
+- **Educational Research**: Reading comprehension and accessibility studies
+- **Open Source Community**: Contributors and beta testers
+- **User Feedback**: Valuable insights from early adopters
 
 ## 📞 Support
 
 ### Getting Help
-- **Documentation**: Start with this README
-- **Troubleshooting**: Check common issues section above
-- **Console Logs**: Use browser developer tools
-- **Community**: Search existing discussions
-
-
+- **Documentation**: Start with this comprehensive README
+- **Troubleshooting**: Check the debugging section above
+- **Console Logs**: Use browser developer tools for detailed error information
+- **Community**: Join discussions and share experiences
 
 ### Contact Information
+- **GitHub Issues**: Report bugs and request features
 - **Email**: subhamchauhan1310@gmail.com
-- **GitHub**: [github.com/explain-this-page](https://github.com/ssupshub)
-
-### Reporting Issues
-- **Bug Reports**: Provide detailed steps to reproduce
-- **Feature Requests**: Suggest improvements and new features
-- **Performance Issues**: Report slow or problematic behavior
-
-
-### Contact Information
-- **Issues**: Report bugs and feature requests
-- **Discussions**: General questions and feedback
-- **Email**: Extension support contact
-
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## 🙏 Acknowledgments
-
-- **Chrome Extension APIs**: Google Chrome team
-- **Design Inspiration**: Modern web design trends
-- **Educational Research**: Reading comprehension studies
-- **User Feedback**: Beta testers and early adopters
-- **Open Source**: Community contributions and suggestions
+- **Discussions**: General questions and community support
 
 ---
 
-**Made with ❤️ for students and lifelong learners**
+**🧠 Made with intelligence for better comprehension**
 
-*Explain This Page v2.0 - Making the web more accessible, one page at a time.*
+*Explain This Page v3.0 - Transforming complex content into clear understanding, one page at a time.*
