@@ -1,47 +1,106 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Explain This Page — Popup</title>
-  <link rel="stylesheet" href="popup.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explain This Page</title>
+  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <div id="popup-root">
-    <header>
-      <h1>Explain This Page</h1>
-      <small>Summarize & simplify any webpage</small>
-    </header>
+  <div class="popup-container">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-content">
+        <div class="logo">
+          <div class="logo-icon">🧠</div>
+          <div class="logo-text">
+            <h1>Explain This Page</h1>
+            <p>AI-Powered Content Simplifier</p>
+          </div>
+        </div>
+        <div class="version">v3.0</div>
+      </div>
+    </div>
 
-    <section id="controls">
-      <label for="level-select">Reading level</label>
-      <select id="level-select" aria-label="Reading level">
-        <option value="elementary">Elementary</option>
-        <option value="middle" selected>Middle School</option>
-        <option value="high">High School</option>
-      </select>
-
-      <label class="checkbox-inline">
-        <input type="checkbox" id="auto-detect" />
-        Auto-detect complex pages
-      </label>
-
-      <button id="explain-btn" class="primary" aria-label="Explain current page">
-        <span class="btn-icon">🔍</span> Explain Current Page
+    <!-- Quick Actions -->
+    <div class="section">
+      <button id="explain-btn" class="primary-btn">
+        <span class="btn-icon">✨</span>
+        <span class="btn-text">Explain Current Page</span>
+        <div class="btn-loader"></div>
       </button>
+    </div>
 
-      <div id="status" role="status" aria-live="polite"></div>
-    </section>
+    <!-- Settings -->
+    <div class="section">
+      <h3>Reading Level</h3>
+      <div class="reading-levels">
+        <label class="level-option">
+          <input type="radio" name="reading-level" value="elementary" id="level-elementary">
+          <span class="level-card">
+            <span class="level-icon">🌟</span>
+            <span class="level-name">Elementary</span>
+            <span class="level-desc">Very simple words</span>
+          </span>
+        </label>
+        <label class="level-option">
+          <input type="radio" name="reading-level" value="middle" id="level-middle" checked>
+          <span class="level-card">
+            <span class="level-icon">📚</span>
+            <span class="level-name">Middle School</span>
+            <span class="level-desc">Moderate complexity</span>
+          </span>
+        </label>
+        <label class="level-option">
+          <input type="radio" name="reading-level" value="high" id="level-high">
+          <span class="level-card">
+            <span class="level-icon">🎓</span>
+            <span class="level-name">High School</span>
+            <span class="level-desc">Standard complexity</span>
+          </span>
+        </label>
+      </div>
+    </div>
 
-    <section id="stats">
-      <div><strong>Pages explained</strong><div id="pages-count">0</div></div>
-      <div><strong>Words simplified</strong><div id="words-count">0</div></div>
-      <div id="last-used"></div>
-    </section>
+    <!-- Features Toggle -->
+    <div class="section">
+      <div class="feature-toggle">
+        <div class="toggle-info">
+          <span class="toggle-icon">🔍</span>
+          <div>
+            <div class="toggle-title">Auto-Detection</div>
+            <div class="toggle-desc">Show banner on complex pages</div>
+          </div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="auto-detect" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
 
-    <footer>
-      <small>v2.2.1 • <a href="#" id="help-link">Help</a></small>
-    </footer>
+    <!-- Statistics -->
+    <div class="section">
+      <h3>Your Progress</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📄</div>
+          <div class="stat-number" id="pages-count">0</div>
+          <div class="stat-label">Pages Explained</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💡</div>
+          <div class="stat-number" id="words-count">0</div>
+          <div class="stat-label">Words Simplified</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="status-bar">
+      <div id="status" class="status-message"></div>
+      <div id="last-used" class="last-used"></div>
+    </div>
   </div>
 
   <script src="popup.js"></script>

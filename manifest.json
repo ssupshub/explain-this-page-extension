@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Explain This Page",
-  "version": "2.2.1",
-  "description": "Explains complex webpages in simpler language for students.",
+  "name": "Explain This Page - AI Simplifier",
+  "version": "3.0.0",
+  "description": "Instantly simplify complex webpages with AI-powered explanations, smart summaries, and beautiful tooltips for better understanding.",
   "permissions": [
     "scripting",
-    "activeTab",
+    "activeTab", 
     "storage",
     "contextMenus"
   ],
@@ -16,10 +16,10 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_title": "Explain This Page",
+    "default_title": "Explain This Page - AI Simplifier",
     "default_icon": {
       "16": "icons/icon16.png",
-      "48": "icons/icon48.png",
+      "48": "icons/icon48.png", 
       "128": "icons/icon128.png"
     },
     "default_popup": "popup.html"
@@ -35,6 +35,12 @@
       "js": ["content.js"],
       "css": ["content.css"],
       "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*.png"],
+      "matches": ["<all_urls>"]
     }
   ]
 }
