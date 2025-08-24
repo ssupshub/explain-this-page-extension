@@ -1,107 +1,112 @@
-# 🚀 Quick Installation Guide
+# 🚀 Installation Guide - Explain This Page v3.0
 
-## Prerequisites
-- Google Chrome browser (version 88+)
-- Basic computer skills
-- Internet connection (for initial download only)
+## Quick Start (5 minutes)
 
-## Step-by-Step Installation
+### Step 1: Download Extension Files
+- Ensure you have all extension files in a single folder
+- Required files: `manifest.json`, `background.js`, `content.js`, `content.css`, `popup.html`, `popup.js`, `popup.css`, and `icons/` folder
 
-### 1. Download the Extension
-- Extract the ZIP file to a folder on your computer
-- Remember the folder location (e.g., Downloads/explain-this-page-extension)
+### Step 2: Install in Chrome
 
-### 2. Add Extension Icons
-**IMPORTANT**: You need to add the 3 icon files to the `icons/` folder:
-- Copy `icon16.png` to `icons/icon16.png`
-- Copy `icon48.png` to `icons/icon48.png`  
-- Copy `icon128.png` to `icons/icon128.png`
+1. **Open Chrome Extensions Page**
+   - Type `chrome://extensions/` in the address bar
+   - Or: Chrome Menu → More Tools → Extensions
 
-The icons are provided separately and must be added before installation.
+2. **Enable Developer Mode**
+   - Toggle the "Developer mode" switch in the top-right corner
+   - This allows loading unpacked extensions
 
-### 3. Open Chrome Extensions Page
-- Open Google Chrome
-- Go to `chrome://extensions/` in the address bar
-- OR: Menu → More tools → Extensions
+3. **Load the Extension**
+   - Click "Load unpacked" button
+   - Navigate to and select your extension folder
+   - Click "Select Folder"
 
-### 4. Enable Developer Mode
-- Look for "Developer mode" toggle in the top right
-- Click to enable it
-- New buttons will appear: "Load unpacked", "Pack extension", "Update"
+4. **Verify Installation**
+   - Look for "Explain This Page - AI Simplifier" in the extensions list
+   - Check that it shows "Enabled" status
+   - The brain icon (🧠) should appear in your Chrome toolbar
 
-### 5. Load the Extension
-- Click "Load unpacked" button
-- Navigate to your extracted folder
-- Select the `explain-this-page-extension` folder
-- Click "Select Folder" or "Open"
+### Step 3: Test the Extension
 
-### 6. Verify Installation
-- The extension should appear in your extensions list
-- Look for the 📚 icon in your Chrome toolbar
-- If successful, you'll see "Explain This Page" with version 1.0.0
+1. **Open Test Page**
+   - Navigate to `file:///path/to/your/extension/test.html`
+   - Or visit any complex webpage (Wikipedia, academic articles)
 
-### 7. Test the Extension
-- Visit any complex webpage (try Wikipedia)
-- Look for a notification: "This page looks complex!"
-- Click "Explain It!" to test functionality
-- OR click the extension icon and select "Explain Current Page"
+2. **Check Auto-Detection**
+   - Wait 1-2 seconds for the complexity analysis
+   - A beautiful banner should appear in the bottom-right corner
+   - If not, click the extension icon to manually trigger
 
-## Troubleshooting Installation
+3. **Try the Features**
+   - Click the banner to open the explanation overlay
+   - Try different reading levels in the popup
+   - Right-click text to use context menu options
 
-### Extension Not Loading
-**Error**: "Could not load extension"
-**Solution**: 
-- Check that all files are present in the folder
-- Ensure `manifest.json` is in the root directory
-- Verify all icon files are in the `icons/` folder
+## Troubleshooting
 
-### Icons Not Displaying
-**Problem**: Extension loads but no icons show
-**Solution**:
-- Make sure all 3 PNG files are in the `icons/` folder
-- Check file names exactly match: `icon16.png`, `icon48.png`, `icon128.png`
-- Reload the extension after adding icons
+### Extension Won't Load
+- **Error: "Manifest file is missing or unreadable"**
+  - Ensure `manifest.json` is in the root folder
+  - Check that the JSON syntax is valid
 
-### Permission Errors  
-**Problem**: Extension requests unexpected permissions
-**Solution**:
-- Review the permissions in `manifest.json`
-- All requested permissions are necessary for functionality
-- Chrome will show what the extension can access
+- **Error: "Could not load icon"**
+  - Verify PNG files exist in `icons/` folder
+  - Files needed: `icon16.png`, `icon48.png`, `icon128.png`
 
-### Cannot Load on Certain Pages
-**Expected**: Extension won't work on:
-- Chrome system pages (`chrome://`)
-- Extension pages (`chrome-extension://`)
-- Some secure pages (banking, etc.)
-- This is normal browser security behavior
+### No Banner Appearing
+- Check if auto-detection is enabled in popup settings
+- Try on different websites with complex content
+- Open Developer Tools (F12) and check console for errors
 
-## Quick Start After Installation
+### Popup Not Working
+- Right-click the extension icon → "Inspect popup"
+- Check console for JavaScript errors
+- Try refreshing the extension
 
-1. **First Use**: Click the extension icon to open settings
-2. **Configure**: Set your preferred reading level
-3. **Test**: Visit a complex webpage like a Wikipedia article
-4. **Explore**: Try the different features and settings
+## Advanced Configuration
 
-## Uninstalling
+### For Developers
+```bash
+# Enable debug mode
+# Edit content.js and change:
+const CONFIG = {
+  debug: true,  # Change to true
+  # ...
+}
+```
 
-To remove the extension:
-1. Go to `chrome://extensions/`
-2. Find "Explain This Page"
-3. Click "Remove"
-4. Confirm removal
-5. Delete the extension folder from your computer
+### Extension Permissions
+- **scripting**: Modify page content for simplification
+- **activeTab**: Access current tab when extension is clicked
+- **storage**: Save user preferences and statistics
+- **contextMenus**: Add right-click options
 
-## Getting Help
+### File Structure Verification
+```
+your-extension-folder/
+├── manifest.json       ✓ Required
+├── background.js       ✓ Required
+├── content.js          ✓ Required
+├── content.css         ✓ Required
+├── popup.html          ✓ Required
+├── popup.js            ✓ Required
+├── popup.css           ✓ Required
+├── icons/
+│   ├── icon16.png      ✓ Required
+│   ├── icon48.png      ✓ Required
+│   └── icon128.png     ✓ Required
+├── test.html           ○ Optional (for testing)
+└── README.md           ○ Optional
+```
+
+## Support
 
 If you encounter issues:
-1. Check this guide first
-2. Read the full README.md for detailed information
-3. Try disabling other extensions temporarily
-4. Contact support: support@explainthispage.com
+1. Check the troubleshooting section above
+2. Open browser console (F12) and look for error messages
+3. Try disabling other extensions that might conflict
+4. Contact support with specific error messages
 
 ---
 
-**Installation time**: ~2 minutes  
-**Difficulty**: Beginner-friendly  
-**Requirements**: Chrome browser only
+**Ready to simplify the web! 🧠✨**
